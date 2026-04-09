@@ -202,17 +202,15 @@ This was designed to bias generation toward structured XML output.
 
 Implemented in `grpo_trl/reward_math_format_accuracy.py`.
 
-The final reward stack combined several terms:
+From the reporting perspective, the core reward has two parts:
 
-- `format_progress_reward_func`
-- `xml_tag_shape_reward_func`
-- `strict_format_reward_func`
-- `brevity_reward_func`
-- `answer_similarity_reward_func`
-- `answer_reward_func`
-- `repetition_penalty_func`
+1. format reward
+2. answer reward
 
-This reward design was necessary because the original strict-only reward was too sparse and often yielded all-zero rewards.
+That is, the main training target is:
+
+- whether the model follows the target XML format
+- whether the predicted final answer matches the ground truth
 
 ### 5.3 Final GRPO configuration used
 
@@ -271,6 +269,7 @@ Interpretation:
 - GRPO improved answer behavior and reward quality.
 - The model still did not learn perfectly clean XML stopping behavior.
 - Strict XML formatting remained the weakest part of the pipeline.
+- In terms of core objectives, answer reward improved more than strict format reward.
 
 ## 6. GSM8K Evaluation
 

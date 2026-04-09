@@ -128,17 +128,15 @@ LoRA 目标模块：
 
 - `trl.GRPOTrainer`
 
-最终奖励函数不是只有一个“答对/答错”硬奖励，而是组合式设计：
+从汇报角度看，这次 GRPO 的核心奖励只有两部分：
 
-- `format_progress_reward_func`
-- `xml_tag_shape_reward_func`
-- `strict_format_reward_func`
-- `brevity_reward_func`
-- `answer_similarity_reward_func`
-- `answer_reward_func`
-- `repetition_penalty_func`
+- 格式奖励
+- 答案奖励
 
-这样做的原因是：如果只用严格格式奖励和最终答案奖励，早期训练经常全部是 `0 reward`，GRPO 很难学动。
+也就是：
+
+1. 如果输出满足目标 XML 格式，就给格式分。
+2. 如果最终答案与 `ground_truth` 一致，就给答案分。
 
 ## 3. 实际训练流程
 
@@ -219,6 +217,7 @@ GRPO 以上一步 merge 后的 SFT 模型作为初始化模型。
 
 - 数学答案能力有明显提升
 - 但“严格只输出一次完整 XML 并停止”还没有完全学稳
+- 从奖励设计角度看，真正要优化的核心目标仍然是“格式分 + 答案分”
 
 ## 4. 评测
 
@@ -294,5 +293,4 @@ GRPO 以上一步 merge 后的 SFT 模型作为初始化模型。
 2. 在已有数学模型上做 LoRA SFT 冷启动
 3. 在 SFT 模型上继续做 GRPO 强化训练
 4. 最终在 GSM8K 上得到明显提升
-
 
