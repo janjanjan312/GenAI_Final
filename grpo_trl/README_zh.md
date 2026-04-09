@@ -1,34 +1,102 @@
-# DeepMath Phase A 上的 TRL GRPO 训练说明
+# DeepMath 上的 SFT + GRPO 训练流程说明
 
-这套代码是把原来依赖 `verl` 的 GRPO 训练流程，改写成 Hugging Face `trl` 版本。
+本目录保存了这次实验中真正用到的训练代码。整个流程不是单独讲 `GRPO`，而是一个完整的三阶段训练链路：
 
-本目录包含 4 个核心文件：
+1. 构造 XML 格式的 SFT 数据
+2. 基于已有数学模型做 LoRA SFT 冷启动
+3. 在 SFT 模型上继续做 GRPO 强化训练
 
-- `prepare_deepmath_grpo_dataset.py`：把原始 parquet 转成 `trl.GRPOTrainer` 可直接读取的 parquet。
-- `reward_math_format_accuracy.py`：格式奖励 + 答案奖励。
-- `train_grpo_trl.py`：`trl.GRPOTrainer` 训练入口。
-- `run_grpo_qwen25_math.sh`：一键准备数据并通过 `accelerate launch` 启动训练。
+最终还对模型做了 GSM8K 评测。
 
-## 1. 这次改写的重点
+## 1. 训练目标
 
-原来的 `verl` 版本有两个实际问题：
+目标是让模型在数学题上同时具备两种能力：
 
-- 框架本身在你环境里部署不顺。
-- 脚本里路径是硬编码的，而且和当前项目真实目录不一致，直接运行就容易失败。
+- 答案正确率提升
+- 输出尽量满足统一 XML 格式
 
-这版 `trl` 改写做了两件事：
+目标输出格式为：
 
-- 训练框架切到 `trl.GRPOTrainer`
-- 所有路径都改成基于脚本位置自动推导
+```xml
+<think>
+brief reasoning
+</think>
+<answer>
+\boxed{final answer}
+</answer>
+```
 
-所以你现在不需要再维护 `verl` 的 `reward_model` / `custom_reward_function` 那套配置结构。
+## 2. 数据与代码分工
 
-## 2. 数据格式
+### 2.1 SFT 数据构造
 
-`trl` 的 `GRPOTrainer` 只要求数据里至少有 `prompt` 列。  
-如果奖励函数还需要标准答案等额外列，也可以直接保留在 parquet 里传进 reward function。
+使用文件：
 
-这版输出字段为：
+- `prepare_deepmath_xml_sft_dataset.py`
+
+输入数据：
+
+- `deepmath_phase_a_alpaca.jsonl`
+
+处理逻辑：
+
+1. 从 Alpaca 数据里读取题目和原始长推理。
+2. 删除原始回答中重复的 `Final Answer` 段落。
+3. 去掉多余的口语化前缀，例如 `Okay, so ...`。
+4. 截断过长推理，只保留相对精炼的 reasoning。
+5. 用 `final_answer_norm` 重建最终答案。
+6. 统一重写为 `<think>...</think><answer>\boxed{...}</answer>`。
+
+输出数据格式：
+
+- `messages`
+- `question`
+- `topic`
+- `difficulty`
+- `final_answer_norm`
+- `answer_format`
+- `source`
+
+### 2.2 SFT 训练
+
+使用文件：
+
+- `train_sft_lora.py`
+- `merge_lora_adapter.py`
+
+训练方式：
+
+- `transformers.Trainer`
+- `PEFT LoRA`
+- 监督微调 chat-format XML 数据
+
+LoRA 目标模块：
+
+- `q_proj`
+- `k_proj`
+- `v_proj`
+- `o_proj`
+- `gate_proj`
+- `up_proj`
+- `down_proj`
+
+本次最终采用的冷启动模型不是 `qwen2.5-base`，而是已经存在的数学模型：
+
+- `qwen25_0p5b_math_merged`
+
+这样做的原因很直接：它已经有基础数学能力，用它做 XML 格式冷启动比从纯 base 重新学更稳。
+
+### 2.3 GRPO 数据构造
+
+使用文件：
+
+- `prepare_deepmath_grpo_dataset.py`
+
+输入数据：
+
+- `deepmath_phase_a.parquet`
+
+输出字段：
 
 - `prompt`
 - `ground_truth`
@@ -36,167 +104,203 @@
 - `topic`
 - `difficulty`
 - `answer_format`
+- `response_prefix`
 - `data_source`
 - `row_id`
 
-其中：
+这里的 `prompt` 采用 chat 形式，里面包含：
 
-- `prompt` 是 chat messages 列表
-- `ground_truth` 是标准答案
-- 其余字段主要用于 reward function 和日志
+- system：要求模型输出严格 XML
+- user：题目
+- assistant prefix：`<think>\n`
 
-## 3. 奖励设计
+`ground_truth` 用于 reward 计算。
 
-总奖励仍然保持原逻辑：
+### 2.4 GRPO 训练
 
-```text
-total_reward = format_reward + answer_reward
-```
+使用文件：
 
-权重：
+- `reward_math_format_accuracy.py`
+- `train_grpo_trl.py`
+- `run_grpo_qwen25_math.sh`
 
-- `format_reward = 0.2`
-- `answer_reward = 0.8`
+训练框架：
 
-### 3.1 格式奖励
+- `trl.GRPOTrainer`
 
-要求输出满足：
+最终奖励函数不是只有一个“答对/答错”硬奖励，而是组合式设计：
 
-```text
-<think>
-...
-</think>
-<answer>
-\boxed{...}
-</answer>
-```
+- `format_progress_reward_func`
+- `xml_tag_shape_reward_func`
+- `strict_format_reward_func`
+- `brevity_reward_func`
+- `answer_similarity_reward_func`
+- `answer_reward_func`
+- `repetition_penalty_func`
 
-具体检查：
+这样做的原因是：如果只用严格格式奖励和最终答案奖励，早期训练经常全部是 `0 reward`，GRPO 很难学动。
 
-- 有 `<think>...</think>`
-- 有 `<answer>...</answer>`
-- 只出现一个 `\boxed{...}`
-- `</answer>` 后没有额外文本
+## 3. 实际训练流程
 
-### 3.2 答案奖励
+### 3.1 第一步：构造 XML SFT 数据
 
-逻辑：
+从原始 `deepmath_phase_a_alpaca.jsonl` 生成 XML 格式监督数据。
 
-1. 优先提取 `<answer>` 里的内容
-2. 如果有 `\boxed{...}`，只取 boxed 里面的文本
-3. 与 `ground_truth` 做归一化比较
-4. 能被 `sympy` 解析时，额外做数学等价判断
+完整 XML SFT 数据规模：
 
-## 4. 依赖
+- 总样本：`100,891`
+- train：`99,891`
+- val：`1,000`
 
-最少需要这些包：
+### 3.2 第二步：SFT 冷启动
 
-```bash
-pip install trl accelerate peft datasets transformers pyarrow sympy
-```
+最终采用的是 30k 子集做冷启动：
 
-如果你想用 vLLM 加速生成：
+- train：`30,000`
+- val：`1,000`
 
-```bash
-pip install "trl[vllm]" accelerate peft datasets transformers pyarrow sympy
-```
+最终采用的 SFT 配置：
 
-我本地检查过当前环境，现状是：
+- base model：`qwen25_0p5b_math_merged`
+- learning rate：`2e-4`
+- `per_device_train_batch_size = 8`
+- `per_device_eval_batch_size = 2`
+- `gradient_accumulation_steps = 4`
+- `max_seq_length = 1024`
+- epoch：`1`
 
-- 已有：`transformers`、`datasets`、`sympy`
-- 缺少：`trl`、`accelerate`、`peft`
+SFT 结果：
 
-所以在当前机器上，这几项还得先装。
+- `train_loss = 0.5701`
+- `eval_loss = 0.6167`
 
-## 5. 启动方式
+SFT 后得到两个关键产物：
 
-直接运行：
+- `final_adapter`
+- merge 后的 `xml_sft_merged_30k_b8_g4`
 
-```bash
-cd /Users/obb/Desktop/study/CHUKstudy/AIMS5740/HW/final
-bash upload/grpo_trl/run_grpo_qwen25_math.sh
-```
+### 3.3 第三步：GRPO 训练
 
-脚本默认会：
+GRPO 以上一步 merge 后的 SFT 模型作为初始化模型。
 
-1. 读取 `final_project/outputs/phase_a_deepmath/deepmath_phase_a.parquet`
-2. 自动生成训练/验证 parquet
-3. 使用 `upload/qwen25_0p5b_math_merged`
-4. 用 `accelerate launch` 启动 `trl` 训练
+最终采用的 GRPO 配置：
 
-## 6. 默认参数
+- init model：`xml_sft_merged_30k_b8_g4`
+- `max_completion_length = 1024`
+- `max_steps = 100`
+- `per_device_train_batch_size = 1`
+- `per_device_eval_batch_size = 4`
+- `gradient_accumulation_steps = 4`
+- `num_generations = 4`
+- `learning_rate = 1e-6`
+- `temperature = 0.8`
+- `top_p = 0.95`
+- val size：`64`
+- `eval_steps = 50`
+- `save_steps = 50`
 
-默认值基本沿用了你原来 `verl` 脚本的意图：
+训练日志通过 `SwanLab` 记录，重点看：
 
-- `learning_rate=1e-6`
-- `num_generations=8`
-- `max_completion_length=1536`
-- `num_train_epochs=1`
-- `beta=0.001`
-- `temperature=0.8`
-- `top_p=0.95`
+- `loss`
+- `reward`
+- `entropy`
+- 各个 reward 子项
 
-另外按 TRL 官方 GRPO 文档，这版训练脚本直接基于：
+最终 GRPO 训练指标：
 
-- `GRPOTrainer` 接收 `prompt` 列和自定义 reward function
-- `num_generations`
-- `max_completion_length`
-- `use_vllm`
-- `vllm_mode`
+- `loss = 0.06538`
+- `reward = 0.925`
+- `entropy = 0.1644`
 
-参考文档：
+最终 eval 指标：
 
-- https://huggingface.co/docs/trl/en/grpo_trainer
+- `eval_reward = 0.6139`
+- `eval_entropy = 0.106`
+- `eval_reward_std = 0.1864`
+- `eval_rewards/answer_reward_func/mean = 0.175`
+- `eval_rewards/strict_format_reward_func/mean = 0`
 
-## 7. 可覆盖环境变量
+这说明：
 
-例如单卡先跑一个小实验：
+- 数学答案能力有明显提升
+- 但“严格只输出一次完整 XML 并停止”还没有完全学稳
 
-```bash
-export CUDA_VISIBLE_DEVICES=0
-export NUM_PROCESSES=1
-export PER_DEVICE_TRAIN_BATCH_SIZE=2
-export GRADIENT_ACCUMULATION_STEPS=4
-export NUM_GENERATIONS=4
-export MAX_SAMPLES=2000
-bash upload/grpo_trl/run_grpo_qwen25_math.sh
-```
+## 4. 评测
 
-如果想启用 vLLM：
+使用文件：
 
-```bash
-export USE_VLLM=1
-export VLLM_MODE=colocate
-export VLLM_GPU_MEMORY_UTILIZATION=0.55
-bash upload/grpo_trl/run_grpo_qwen25_math.sh
-```
+- `evaluate_gsm8k.py`
+- `test_xml_following.py`
 
-## 8. 一个重要约束
+### 4.1 XML 跟随测试
 
-TRL 官方文档说明：`num_generations` 必须整除有效 batch size。  
-这里至少要满足每个进程上：
+观察到的现象是：
 
-```text
-per_device_train_batch_size * gradient_accumulation_steps
-```
+- SFT 和 GRPO 都能让模型更容易生成出 XML 片段
+- 但模型仍然可能在输出一段正确 XML 之后继续重复生成
 
-能被 `num_generations` 整除。
+所以当前模型的主要问题不是完全不会 XML，而是停止行为还不够稳定。
 
-默认值下：
+### 4.2 GSM8K 1k 对比结果
 
-```text
-4 * 4 = 16
-16 % 8 = 0
-```
+测试设置：
 
-所以默认配置是成立的。
+- GSM8K 前 `1000` 条
+- `max_new_tokens = 512`
+- `batch_size = 4`
 
-## 9. 我这次没有做的事
+对比模型：
 
-我没有在当前环境把训练真正跑起来，因为本机还没装：
+1. 初始数学模型 `qwen25_0p5b_math_merged`
+2. 最终 GRPO 模型 `final_model`
 
-- `trl`
-- `accelerate`
-- `peft`
+结果：
 
-代码已经按 TRL 官方当前文档接口重写，但真正开训前，你还需要先把依赖补齐。
+- 初始模型：
+  - `47 / 1000`
+  - `accuracy = 4.7%`
+- 最终模型：
+  - `220 / 1000`
+  - `accuracy = 22.0%`
+
+结论：
+
+- 经过 `SFT + GRPO` 之后，GSM8K 1k 准确率从 `4.7%` 提升到 `22.0%`
+- 说明整条训练链路对数学求解能力是有效的
+
+## 5. 目录说明
+
+- `prepare_deepmath_xml_sft_dataset.py`
+  - 构造 XML SFT 数据
+- `train_sft_lora.py`
+  - LoRA SFT 训练
+- `merge_lora_adapter.py`
+  - 合并 SFT adapter
+- `prepare_deepmath_grpo_dataset.py`
+  - 构造 GRPO 数据
+- `reward_math_format_accuracy.py`
+  - GRPO 奖励函数
+- `train_grpo_trl.py`
+  - GRPO 训练入口
+- `run_grpo_qwen25_math.sh`
+  - 单独运行 GRPO
+- `run_xml_sft_then_grpo.sh`
+  - 串联 SFT -> merge -> GRPO
+- `test_xml_following.py`
+  - XML 跟随测试
+- `evaluate_gsm8k.py`
+  - GSM8K 批量评测
+
+## 6. 总结
+
+这次实验最重要的不是“从哪个框架切到哪个框架”，而是完整训练链路已经打通：
+
+1. 从 DeepMath 原始长回答中构造出 XML SFT 数据
+2. 在已有数学模型上做 LoRA SFT 冷启动
+3. 在 SFT 模型上继续做 GRPO 强化训练
+4. 最终在 GSM8K 上得到明显提升
+
+当前最主要的剩余问题是：
+
+- 模型答案能力已经提升
+- 但 XML 输出后的停止行为仍需进一步优化

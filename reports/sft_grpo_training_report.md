@@ -2,7 +2,7 @@
 
 ## 1. Goal
 
-This run rebuilt the original `verl` attempt into a `trl`-based pipeline and trained a math model in three stages:
+This run trained a math model through a full three-stage pipeline:
 
 1. Build XML-format SFT data from DeepMath Phase A.
 2. Perform LoRA SFT cold-start from an existing math-tuned checkpoint.
