@@ -1,0 +1,63 @@
+{
+  "model": "grpo_trl_model",
+  "adapter": null,
+  "label": "grpo_minerva_math",
+  "tasks": {
+    "minerva_math": {
+      "math_verify,none": 0.04857142857142857,
+      "math_verify_stderr,none": 0.011392069989349276,
+      "exact_match,none": 0.0,
+      "exact_match_stderr,none": 0.0,
+      "alias": "minerva_math"
+    },
+    "minerva_math_algebra": {
+      "alias": " - minerva_math_algebra",
+      "exact_match,none": 0.0,
+      "exact_match_stderr,none": 0.0,
+      "math_verify,none": 0.1,
+      "math_verify_stderr,none": 0.04285714285714286
+    },
+    "minerva_math_counting_and_prob": {
+      "alias": " - minerva_math_counting_and_prob",
+      "exact_match,none": 0.0,
+      "exact_match_stderr,none": 0.0,
+      "math_verify,none": 0.02,
+      "math_verify_stderr,none": 0.02
+    },
+    "minerva_math_geometry": {
+      "alias": " - minerva_math_geometry",
+      "exact_match,none": 0.0,
+      "exact_match_stderr,none": 0.0,
+      "math_verify,none": 0.02,
+      "math_verify_stderr,none": 0.02
+    },
+    "minerva_math_intermediate_algebra": {
+      "alias": " - minerva_math_intermediate_algebra",
+      "exact_match,none": 0.0,
+      "exact_match_stderr,none": 0.0,
+      "math_verify,none": 0.0,
+      "math_verify_stderr,none": 0.0
+    },
+    "minerva_math_num_theory": {
+      "alias": " - minerva_math_num_theory",
+      "exact_match,none": 0.0,
+      "exact_match_stderr,none": 0.0,
+      "math_verify,none": 0.04,
+      "math_verify_stderr,none": 0.027994168488950602
+    },
+    "minerva_math_prealgebra": {
+      "alias": " - minerva_math_prealgebra",
+      "exact_match,none": 0.0,
+      "exact_match_stderr,none": 0.0,
+      "math_verify,none": 0.12,
+      "math_verify_stderr,none": 0.04642307659791978
+    },
+    "minerva_math_precalc": {
+      "alias": " - minerva_math_precalc",
+      "exact_match,none": 0.0,
+      "exact_match_stderr,none": 0.0,
+      "math_verify,none": 0.04,
+      "math_verify_stderr,none": 0.027994168488950602
+    }
+  }
+}

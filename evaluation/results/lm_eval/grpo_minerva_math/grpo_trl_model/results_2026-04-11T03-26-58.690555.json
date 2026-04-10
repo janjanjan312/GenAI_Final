@@ -1,0 +1,647 @@
+{
+  "results": {
+    "minerva_math": {
+      "math_verify,none": 0.04857142857142857,
+      "math_verify_stderr,none": 0.011392069989349276,
+      "exact_match,none": 0.0,
+      "exact_match_stderr,none": 0.0,
+      "alias": "minerva_math"
+    },
+    "minerva_math_algebra": {
+      "alias": " - minerva_math_algebra",
+      "exact_match,none": 0.0,
+      "exact_match_stderr,none": 0.0,
+      "math_verify,none": 0.1,
+      "math_verify_stderr,none": 0.04285714285714286
+    },
+    "minerva_math_counting_and_prob": {
+      "alias": " - minerva_math_counting_and_prob",
+      "exact_match,none": 0.0,
+      "exact_match_stderr,none": 0.0,
+      "math_verify,none": 0.02,
+      "math_verify_stderr,none": 0.02
+    },
+    "minerva_math_geometry": {
+      "alias": " - minerva_math_geometry",
+      "exact_match,none": 0.0,
+      "exact_match_stderr,none": 0.0,
+      "math_verify,none": 0.02,
+      "math_verify_stderr,none": 0.02
+    },
+    "minerva_math_intermediate_algebra": {
+      "alias": " - minerva_math_intermediate_algebra",
+      "exact_match,none": 0.0,
+      "exact_match_stderr,none": 0.0,
+      "math_verify,none": 0.0,
+      "math_verify_stderr,none": 0.0
+    },
+    "minerva_math_num_theory": {
+      "alias": " - minerva_math_num_theory",
+      "exact_match,none": 0.0,
+      "exact_match_stderr,none": 0.0,
+      "math_verify,none": 0.04,
+      "math_verify_stderr,none": 0.027994168488950602
+    },
+    "minerva_math_prealgebra": {
+      "alias": " - minerva_math_prealgebra",
+      "exact_match,none": 0.0,
+      "exact_match_stderr,none": 0.0,
+      "math_verify,none": 0.12,
+      "math_verify_stderr,none": 0.04642307659791978
+    },
+    "minerva_math_precalc": {
+      "alias": " - minerva_math_precalc",
+      "exact_match,none": 0.0,
+      "exact_match_stderr,none": 0.0,
+      "math_verify,none": 0.04,
+      "math_verify_stderr,none": 0.027994168488950602
+    }
+  },
+  "groups": {
+    "minerva_math": {
+      "math_verify,none": 0.04857142857142857,
+      "math_verify_stderr,none": 0.011392069989349276,
+      "exact_match,none": 0.0,
+      "exact_match_stderr,none": 0.0,
+      "alias": "minerva_math"
+    }
+  },
+  "group_subtasks": {
+    "minerva_math": [
+      "minerva_math_algebra",
+      "minerva_math_counting_and_prob",
+      "minerva_math_geometry",
+      "minerva_math_intermediate_algebra",
+      "minerva_math_num_theory",
+      "minerva_math_prealgebra",
+      "minerva_math_precalc"
+    ]
+  },
+  "configs": {
+    "minerva_math_algebra": {
+      "task": "minerva_math_algebra",
+      "tag": [
+        "math_word_problems"
+      ],
+      "dataset_path": "EleutherAI/hendrycks_math",
+      "dataset_name": "algebra",
+      "training_split": "train",
+      "test_split": "test",
+      "process_docs": "def process_docs(dataset: datasets.Dataset) -> datasets.Dataset:\n    def _process_doc(doc: dict) -> dict:\n        out_doc = {\n            \"problem\": doc[\"problem\"],\n            \"solution\": doc[\"solution\"],\n            \"answer\": normalize_final_answer(\n                remove_boxed(last_boxed_only_string(doc[\"solution\"]))\n            ),\n        }\n        if getattr(doc, \"few_shot\", None) is not None:\n            out_doc[\"few_shot\"] = True\n        return out_doc\n\n    return dataset.map(_process_doc)\n",
+      "doc_to_text": "def doc_to_text(doc: dict) -> str:\n    return \"Problem:\" + \"\\n\" + doc[\"problem\"] + \"\\n\\n\" + \"Solution:\"\n",
+      "doc_to_target": "{{answer if few_shot is undefined else solution}}",
+      "unsafe_code": false,
+      "process_results": "def process_results(doc: dict, results: list[str]) -> dict[str, int]:\n    candidates = results[0]\n\n    unnormalized_answer = get_unnormalized_answer(candidates)\n    answer = normalize_final_answer(unnormalized_answer)\n\n    if is_equiv(answer, doc[\"answer\"]):\n        retval = 1\n    else:\n        retval = 0\n\n    # math_verify\n    _mvres = verify(\n        gold=parse(doc[\"solution\"]),\n        target=parse(candidates),\n    )\n    mathval = 1 if _mvres else 0\n\n    res = {\n        \"exact_match\": retval,\n        \"math_verify\": mathval,\n    }\n    return res\n",
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "fewshot_config": {
+        "sampler": "first_n",
+        "split": null,
+        "process_docs": "<function process_docs at 0x16bf4b100>",
+        "fewshot_indices": null,
+        "samples": "<function list_fewshot_samples at 0x16bf4a480>",
+        "doc_to_text": "<function doc_to_text at 0x16bf4be20>",
+        "doc_to_choice": null,
+        "doc_to_target": "{{answer if few_shot is undefined else solution}}",
+        "gen_prefix": null,
+        "fewshot_delimiter": "\n\n",
+        "target_delimiter": " "
+      },
+      "num_fewshot": 4,
+      "metric_list": [
+        {
+          "metric": "exact_match",
+          "aggregation": "mean",
+          "higher_is_better": true
+        },
+        {
+          "metric": "math_verify",
+          "aggregation": "mean",
+          "higher_is_better": true
+        }
+      ],
+      "output_type": "generate_until",
+      "generation_kwargs": {
+        "until": [
+          "Problem:"
+        ],
+        "do_sample": false,
+        "temperature": 0.0,
+        "max_gen_toks": 1024
+      },
+      "repeats": 1,
+      "should_decontaminate": false,
+      "metadata": {
+        "version": 3.0,
+        "pretrained": "grpo_trl_model",
+        "dtype": "float16"
+      }
+    },
+    "minerva_math_counting_and_prob": {
+      "task": "minerva_math_counting_and_prob",
+      "tag": [
+        "math_word_problems"
+      ],
+      "dataset_path": "EleutherAI/hendrycks_math",
+      "dataset_name": "counting_and_probability",
+      "training_split": "train",
+      "test_split": "test",
+      "process_docs": "def process_docs(dataset: datasets.Dataset) -> datasets.Dataset:\n    def _process_doc(doc: dict) -> dict:\n        out_doc = {\n            \"problem\": doc[\"problem\"],\n            \"solution\": doc[\"solution\"],\n            \"answer\": normalize_final_answer(\n                remove_boxed(last_boxed_only_string(doc[\"solution\"]))\n            ),\n        }\n        if getattr(doc, \"few_shot\", None) is not None:\n            out_doc[\"few_shot\"] = True\n        return out_doc\n\n    return dataset.map(_process_doc)\n",
+      "doc_to_text": "def doc_to_text(doc: dict) -> str:\n    return \"Problem:\" + \"\\n\" + doc[\"problem\"] + \"\\n\\n\" + \"Solution:\"\n",
+      "doc_to_target": "{{answer if few_shot is undefined else solution}}",
+      "unsafe_code": false,
+      "process_results": "def process_results(doc: dict, results: list[str]) -> dict[str, int]:\n    candidates = results[0]\n\n    unnormalized_answer = get_unnormalized_answer(candidates)\n    answer = normalize_final_answer(unnormalized_answer)\n\n    if is_equiv(answer, doc[\"answer\"]):\n        retval = 1\n    else:\n        retval = 0\n\n    # math_verify\n    _mvres = verify(\n        gold=parse(doc[\"solution\"]),\n        target=parse(candidates),\n    )\n    mathval = 1 if _mvres else 0\n\n    res = {\n        \"exact_match\": retval,\n        \"math_verify\": mathval,\n    }\n    return res\n",
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "fewshot_config": {
+        "sampler": "first_n",
+        "split": null,
+        "process_docs": "<function process_docs at 0x16b61ba60>",
+        "fewshot_indices": null,
+        "samples": "<function list_fewshot_samples at 0x16b61a2a0>",
+        "doc_to_text": "<function doc_to_text at 0x16bf487c0>",
+        "doc_to_choice": null,
+        "doc_to_target": "{{answer if few_shot is undefined else solution}}",
+        "gen_prefix": null,
+        "fewshot_delimiter": "\n\n",
+        "target_delimiter": " "
+      },
+      "num_fewshot": 4,
+      "metric_list": [
+        {
+          "metric": "exact_match",
+          "aggregation": "mean",
+          "higher_is_better": true
+        },
+        {
+          "metric": "math_verify",
+          "aggregation": "mean",
+          "higher_is_better": true
+        }
+      ],
+      "output_type": "generate_until",
+      "generation_kwargs": {
+        "until": [
+          "Problem:"
+        ],
+        "do_sample": false,
+        "temperature": 0.0,
+        "max_gen_toks": 1024
+      },
+      "repeats": 1,
+      "should_decontaminate": false,
+      "metadata": {
+        "version": 3.0,
+        "pretrained": "grpo_trl_model",
+        "dtype": "float16"
+      }
+    },
+    "minerva_math_geometry": {
+      "task": "minerva_math_geometry",
+      "tag": [
+        "math_word_problems"
+      ],
+      "dataset_path": "EleutherAI/hendrycks_math",
+      "dataset_name": "geometry",
+      "training_split": "train",
+      "test_split": "test",
+      "process_docs": "def process_docs(dataset: datasets.Dataset) -> datasets.Dataset:\n    def _process_doc(doc: dict) -> dict:\n        out_doc = {\n            \"problem\": doc[\"problem\"],\n            \"solution\": doc[\"solution\"],\n            \"answer\": normalize_final_answer(\n                remove_boxed(last_boxed_only_string(doc[\"solution\"]))\n            ),\n        }\n        if getattr(doc, \"few_shot\", None) is not None:\n            out_doc[\"few_shot\"] = True\n        return out_doc\n\n    return dataset.map(_process_doc)\n",
+      "doc_to_text": "def doc_to_text(doc: dict) -> str:\n    return \"Problem:\" + \"\\n\" + doc[\"problem\"] + \"\\n\\n\" + \"Solution:\"\n",
+      "doc_to_target": "{{answer if few_shot is undefined else solution}}",
+      "unsafe_code": false,
+      "process_results": "def process_results(doc: dict, results: list[str]) -> dict[str, int]:\n    candidates = results[0]\n\n    unnormalized_answer = get_unnormalized_answer(candidates)\n    answer = normalize_final_answer(unnormalized_answer)\n\n    if is_equiv(answer, doc[\"answer\"]):\n        retval = 1\n    else:\n        retval = 0\n\n    # math_verify\n    _mvres = verify(\n        gold=parse(doc[\"solution\"]),\n        target=parse(candidates),\n    )\n    mathval = 1 if _mvres else 0\n\n    res = {\n        \"exact_match\": retval,\n        \"math_verify\": mathval,\n    }\n    return res\n",
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "fewshot_config": {
+        "sampler": "first_n",
+        "split": null,
+        "process_docs": "<function process_docs at 0x16b62bec0>",
+        "fewshot_indices": null,
+        "samples": "<function list_fewshot_samples at 0x16ea2b100>",
+        "doc_to_text": "<function doc_to_text at 0x16b618c20>",
+        "doc_to_choice": null,
+        "doc_to_target": "{{answer if few_shot is undefined else solution}}",
+        "gen_prefix": null,
+        "fewshot_delimiter": "\n\n",
+        "target_delimiter": " "
+      },
+      "num_fewshot": 4,
+      "metric_list": [
+        {
+          "metric": "exact_match",
+          "aggregation": "mean",
+          "higher_is_better": true
+        },
+        {
+          "metric": "math_verify",
+          "aggregation": "mean",
+          "higher_is_better": true
+        }
+      ],
+      "output_type": "generate_until",
+      "generation_kwargs": {
+        "until": [
+          "Problem:"
+        ],
+        "do_sample": false,
+        "temperature": 0.0,
+        "max_gen_toks": 1024
+      },
+      "repeats": 1,
+      "should_decontaminate": false,
+      "metadata": {
+        "version": 3.0,
+        "pretrained": "grpo_trl_model",
+        "dtype": "float16"
+      }
+    },
+    "minerva_math_intermediate_algebra": {
+      "task": "minerva_math_intermediate_algebra",
+      "tag": [
+        "math_word_problems"
+      ],
+      "dataset_path": "EleutherAI/hendrycks_math",
+      "dataset_name": "intermediate_algebra",
+      "training_split": "train",
+      "test_split": "test",
+      "process_docs": "def process_docs(dataset: datasets.Dataset) -> datasets.Dataset:\n    def _process_doc(doc: dict) -> dict:\n        out_doc = {\n            \"problem\": doc[\"problem\"],\n            \"solution\": doc[\"solution\"],\n            \"answer\": normalize_final_answer(\n                remove_boxed(last_boxed_only_string(doc[\"solution\"]))\n            ),\n        }\n        if getattr(doc, \"few_shot\", None) is not None:\n            out_doc[\"few_shot\"] = True\n        return out_doc\n\n    return dataset.map(_process_doc)\n",
+      "doc_to_text": "def doc_to_text(doc: dict) -> str:\n    return \"Problem:\" + \"\\n\" + doc[\"problem\"] + \"\\n\\n\" + \"Solution:\"\n",
+      "doc_to_target": "{{answer if few_shot is undefined else solution}}",
+      "unsafe_code": false,
+      "process_results": "def process_results(doc: dict, results: list[str]) -> dict[str, int]:\n    candidates = results[0]\n\n    unnormalized_answer = get_unnormalized_answer(candidates)\n    answer = normalize_final_answer(unnormalized_answer)\n\n    if is_equiv(answer, doc[\"answer\"]):\n        retval = 1\n    else:\n        retval = 0\n\n    # math_verify\n    _mvres = verify(\n        gold=parse(doc[\"solution\"]),\n        target=parse(candidates),\n    )\n    mathval = 1 if _mvres else 0\n\n    res = {\n        \"exact_match\": retval,\n        \"math_verify\": mathval,\n    }\n    return res\n",
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "fewshot_config": {
+        "sampler": "first_n",
+        "split": null,
+        "process_docs": "<function process_docs at 0x16b629800>",
+        "fewshot_indices": null,
+        "samples": "<function list_fewshot_samples at 0x16b655760>",
+        "doc_to_text": "<function doc_to_text at 0x16b62a520>",
+        "doc_to_choice": null,
+        "doc_to_target": "{{answer if few_shot is undefined else solution}}",
+        "gen_prefix": null,
+        "fewshot_delimiter": "\n\n",
+        "target_delimiter": " "
+      },
+      "num_fewshot": 4,
+      "metric_list": [
+        {
+          "metric": "exact_match",
+          "aggregation": "mean",
+          "higher_is_better": true
+        },
+        {
+          "metric": "math_verify",
+          "aggregation": "mean",
+          "higher_is_better": true
+        }
+      ],
+      "output_type": "generate_until",
+      "generation_kwargs": {
+        "until": [
+          "Problem:"
+        ],
+        "do_sample": false,
+        "temperature": 0.0,
+        "max_gen_toks": 1024
+      },
+      "repeats": 1,
+      "should_decontaminate": false,
+      "metadata": {
+        "version": 3.0,
+        "pretrained": "grpo_trl_model",
+        "dtype": "float16"
+      }
+    },
+    "minerva_math_num_theory": {
+      "task": "minerva_math_num_theory",
+      "tag": [
+        "math_word_problems"
+      ],
+      "dataset_path": "EleutherAI/hendrycks_math",
+      "dataset_name": "number_theory",
+      "training_split": "train",
+      "test_split": "test",
+      "process_docs": "def process_docs(dataset: datasets.Dataset) -> datasets.Dataset:\n    def _process_doc(doc: dict) -> dict:\n        out_doc = {\n            \"problem\": doc[\"problem\"],\n            \"solution\": doc[\"solution\"],\n            \"answer\": normalize_final_answer(\n                remove_boxed(last_boxed_only_string(doc[\"solution\"]))\n            ),\n        }\n        if getattr(doc, \"few_shot\", None) is not None:\n            out_doc[\"few_shot\"] = True\n        return out_doc\n\n    return dataset.map(_process_doc)\n",
+      "doc_to_text": "def doc_to_text(doc: dict) -> str:\n    return \"Problem:\" + \"\\n\" + doc[\"problem\"] + \"\\n\\n\" + \"Solution:\"\n",
+      "doc_to_target": "{{answer if few_shot is undefined else solution}}",
+      "unsafe_code": false,
+      "process_results": "def process_results(doc: dict, results: list[str]) -> dict[str, int]:\n    candidates = results[0]\n\n    unnormalized_answer = get_unnormalized_answer(candidates)\n    answer = normalize_final_answer(unnormalized_answer)\n\n    if is_equiv(answer, doc[\"answer\"]):\n        retval = 1\n    else:\n        retval = 0\n\n    # math_verify\n    _mvres = verify(\n        gold=parse(doc[\"solution\"]),\n        target=parse(candidates),\n    )\n    mathval = 1 if _mvres else 0\n\n    res = {\n        \"exact_match\": retval,\n        \"math_verify\": mathval,\n    }\n    return res\n",
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "fewshot_config": {
+        "sampler": "first_n",
+        "split": null,
+        "process_docs": "<function process_docs at 0x16b655c60>",
+        "fewshot_indices": null,
+        "samples": "<function list_fewshot_samples at 0x16b657420>",
+        "doc_to_text": "<function doc_to_text at 0x16b6568e0>",
+        "doc_to_choice": null,
+        "doc_to_target": "{{answer if few_shot is undefined else solution}}",
+        "gen_prefix": null,
+        "fewshot_delimiter": "\n\n",
+        "target_delimiter": " "
+      },
+      "num_fewshot": 4,
+      "metric_list": [
+        {
+          "metric": "exact_match",
+          "aggregation": "mean",
+          "higher_is_better": true
+        },
+        {
+          "metric": "math_verify",
+          "aggregation": "mean",
+          "higher_is_better": true
+        }
+      ],
+      "output_type": "generate_until",
+      "generation_kwargs": {
+        "until": [
+          "Problem:"
+        ],
+        "do_sample": false,
+        "temperature": 0.0,
+        "max_gen_toks": 1024
+      },
+      "repeats": 1,
+      "should_decontaminate": false,
+      "metadata": {
+        "version": 3.0,
+        "pretrained": "grpo_trl_model",
+        "dtype": "float16"
+      }
+    },
+    "minerva_math_prealgebra": {
+      "task": "minerva_math_prealgebra",
+      "tag": [
+        "math_word_problems"
+      ],
+      "dataset_path": "EleutherAI/hendrycks_math",
+      "dataset_name": "prealgebra",
+      "training_split": "train",
+      "test_split": "test",
+      "process_docs": "def process_docs(dataset: datasets.Dataset) -> datasets.Dataset:\n    def _process_doc(doc: dict) -> dict:\n        out_doc = {\n            \"problem\": doc[\"problem\"],\n            \"solution\": doc[\"solution\"],\n            \"answer\": normalize_final_answer(\n                remove_boxed(last_boxed_only_string(doc[\"solution\"]))\n            ),\n        }\n        if getattr(doc, \"few_shot\", None) is not None:\n            out_doc[\"few_shot\"] = True\n        return out_doc\n\n    return dataset.map(_process_doc)\n",
+      "doc_to_text": "def doc_to_text(doc: dict) -> str:\n    return \"Problem:\" + \"\\n\" + doc[\"problem\"] + \"\\n\\n\" + \"Solution:\"\n",
+      "doc_to_target": "{{answer if few_shot is undefined else solution}}",
+      "unsafe_code": false,
+      "process_results": "def process_results(doc: dict, results: list[str]) -> dict[str, int]:\n    candidates = results[0]\n\n    unnormalized_answer = get_unnormalized_answer(candidates)\n    answer = normalize_final_answer(unnormalized_answer)\n\n    if is_equiv(answer, doc[\"answer\"]):\n        retval = 1\n    else:\n        retval = 0\n\n    # math_verify\n    _mvres = verify(\n        gold=parse(doc[\"solution\"]),\n        target=parse(candidates),\n    )\n    mathval = 1 if _mvres else 0\n\n    res = {\n        \"exact_match\": retval,\n        \"math_verify\": mathval,\n    }\n    return res\n",
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "fewshot_config": {
+        "sampler": "first_n",
+        "split": null,
+        "process_docs": "<function process_docs at 0x16b681c60>",
+        "fewshot_indices": null,
+        "samples": "<function list_fewshot_samples at 0x16b682de0>",
+        "doc_to_text": "<function doc_to_text at 0x16b680a40>",
+        "doc_to_choice": null,
+        "doc_to_target": "{{answer if few_shot is undefined else solution}}",
+        "gen_prefix": null,
+        "fewshot_delimiter": "\n\n",
+        "target_delimiter": " "
+      },
+      "num_fewshot": 4,
+      "metric_list": [
+        {
+          "metric": "exact_match",
+          "aggregation": "mean",
+          "higher_is_better": true
+        },
+        {
+          "metric": "math_verify",
+          "aggregation": "mean",
+          "higher_is_better": true
+        }
+      ],
+      "output_type": "generate_until",
+      "generation_kwargs": {
+        "until": [
+          "Problem:"
+        ],
+        "do_sample": false,
+        "temperature": 0.0,
+        "max_gen_toks": 1024
+      },
+      "repeats": 1,
+      "should_decontaminate": false,
+      "metadata": {
+        "version": 3.0,
+        "pretrained": "grpo_trl_model",
+        "dtype": "float16"
+      }
+    },
+    "minerva_math_precalc": {
+      "task": "minerva_math_precalc",
+      "tag": [
+        "math_word_problems"
+      ],
+      "dataset_path": "EleutherAI/hendrycks_math",
+      "dataset_name": "precalculus",
+      "training_split": "train",
+      "test_split": "test",
+      "process_docs": "def process_docs(dataset: datasets.Dataset) -> datasets.Dataset:\n    def _process_doc(doc: dict) -> dict:\n        out_doc = {\n            \"problem\": doc[\"problem\"],\n            \"solution\": doc[\"solution\"],\n            \"answer\": normalize_final_answer(\n                remove_boxed(last_boxed_only_string(doc[\"solution\"]))\n            ),\n        }\n        if getattr(doc, \"few_shot\", None) is not None:\n            out_doc[\"few_shot\"] = True\n        return out_doc\n\n    return dataset.map(_process_doc)\n",
+      "doc_to_text": "def doc_to_text(doc: dict) -> str:\n    return \"Problem:\" + \"\\n\" + doc[\"problem\"] + \"\\n\\n\" + \"Solution:\"\n",
+      "doc_to_target": "{{answer if few_shot is undefined else solution}}",
+      "unsafe_code": false,
+      "process_results": "def process_results(doc: dict, results: list[str]) -> dict[str, int]:\n    candidates = results[0]\n\n    unnormalized_answer = get_unnormalized_answer(candidates)\n    answer = normalize_final_answer(unnormalized_answer)\n\n    if is_equiv(answer, doc[\"answer\"]):\n        retval = 1\n    else:\n        retval = 0\n\n    # math_verify\n    _mvres = verify(\n        gold=parse(doc[\"solution\"]),\n        target=parse(candidates),\n    )\n    mathval = 1 if _mvres else 0\n\n    res = {\n        \"exact_match\": retval,\n        \"math_verify\": mathval,\n    }\n    return res\n",
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "fewshot_config": {
+        "sampler": "first_n",
+        "split": null,
+        "process_docs": "<function process_docs at 0x178689b20>",
+        "fewshot_indices": null,
+        "samples": "<function list_fewshot_samples at 0x16ea1ff60>",
+        "doc_to_text": "<function doc_to_text at 0x16ea1e700>",
+        "doc_to_choice": null,
+        "doc_to_target": "{{answer if few_shot is undefined else solution}}",
+        "gen_prefix": null,
+        "fewshot_delimiter": "\n\n",
+        "target_delimiter": " "
+      },
+      "num_fewshot": 4,
+      "metric_list": [
+        {
+          "metric": "exact_match",
+          "aggregation": "mean",
+          "higher_is_better": true
+        },
+        {
+          "metric": "math_verify",
+          "aggregation": "mean",
+          "higher_is_better": true
+        }
+      ],
+      "output_type": "generate_until",
+      "generation_kwargs": {
+        "until": [
+          "Problem:"
+        ],
+        "do_sample": false,
+        "temperature": 0.0,
+        "max_gen_toks": 1024
+      },
+      "repeats": 1,
+      "should_decontaminate": false,
+      "metadata": {
+        "version": 3.0,
+        "pretrained": "grpo_trl_model",
+        "dtype": "float16"
+      }
+    }
+  },
+  "versions": {
+    "minerva_math": 1.0,
+    "minerva_math_algebra": 3.0,
+    "minerva_math_counting_and_prob": 3.0,
+    "minerva_math_geometry": 3.0,
+    "minerva_math_intermediate_algebra": 3.0,
+    "minerva_math_num_theory": 3.0,
+    "minerva_math_prealgebra": 3.0,
+    "minerva_math_precalc": 3.0
+  },
+  "n-shot": {
+    "minerva_math_algebra": 4,
+    "minerva_math_counting_and_prob": 4,
+    "minerva_math_geometry": 4,
+    "minerva_math_intermediate_algebra": 4,
+    "minerva_math_num_theory": 4,
+    "minerva_math_prealgebra": 4,
+    "minerva_math_precalc": 4
+  },
+  "higher_is_better": {
+    "minerva_math": {
+      "exact_match": true,
+      "math_verify": true
+    },
+    "minerva_math_algebra": {
+      "exact_match": true,
+      "math_verify": true
+    },
+    "minerva_math_counting_and_prob": {
+      "exact_match": true,
+      "math_verify": true
+    },
+    "minerva_math_geometry": {
+      "exact_match": true,
+      "math_verify": true
+    },
+    "minerva_math_intermediate_algebra": {
+      "exact_match": true,
+      "math_verify": true
+    },
+    "minerva_math_num_theory": {
+      "exact_match": true,
+      "math_verify": true
+    },
+    "minerva_math_prealgebra": {
+      "exact_match": true,
+      "math_verify": true
+    },
+    "minerva_math_precalc": {
+      "exact_match": true,
+      "math_verify": true
+    }
+  },
+  "n-samples": {
+    "minerva_math_algebra": {
+      "original": 1187,
+      "effective": 50
+    },
+    "minerva_math_counting_and_prob": {
+      "original": 474,
+      "effective": 50
+    },
+    "minerva_math_geometry": {
+      "original": 479,
+      "effective": 50
+    },
+    "minerva_math_intermediate_algebra": {
+      "original": 903,
+      "effective": 50
+    },
+    "minerva_math_num_theory": {
+      "original": 540,
+      "effective": 50
+    },
+    "minerva_math_prealgebra": {
+      "original": 871,
+      "effective": 50
+    },
+    "minerva_math_precalc": {
+      "original": 546,
+      "effective": 50
+    }
+  },
+  "config": {
+    "model": "hf",
+    "model_args": {
+      "pretrained": "grpo_trl_model",
+      "dtype": "float16"
+    },
+    "model_num_parameters": 494032768,
+    "model_dtype": "torch.float16",
+    "model_revision": "main",
+    "model_sha": "",
+    "batch_size": "1",
+    "batch_sizes": [],
+    "device": "mps",
+    "use_cache": null,
+    "limit": 50.0,
+    "bootstrap_iters": 100000,
+    "gen_kwargs": {
+      "max_gen_toks": 1024
+    },
+    "random_seed": 0,
+    "numpy_seed": 1234,
+    "torch_seed": 1234,
+    "fewshot_seed": 1234
+  },
+  "git_hash": "ef10d144",
+  "date": 1775838257.057559,
+  "pretty_env_info": "PyTorch version: 2.11.0\nIs debug build: False\nCUDA used to build PyTorch: None\nROCM used to build PyTorch: N/A\n\nOS: macOS 14.6 (arm64)\nGCC version: Could not collect\nClang version: 16.0.0 (clang-1600.0.26.4)\nCMake version: Could not collect\nLibc version: N/A\n\nPython version: 3.12.12 (main, Oct  9 2025, 11:07:00) [Clang 16.0.0 (clang-1600.0.26.6)] (64-bit runtime)\nPython platform: macOS-14.6-arm64-arm-64bit\nIs CUDA available: False\nCUDA runtime version: No CUDA\nCUDA_MODULE_LOADING set to: N/A\nGPU models and configuration: No CUDA\nNvidia driver version: No CUDA\ncuDNN version: No CUDA\nIs XPU available: False\nHIP runtime version: N/A\nMIOpen runtime version: N/A\nIs XNNPACK available: True\nCaching allocator config: N/A\n\nCPU:\nApple M2\n\nVersions of relevant libraries:\n[pip3] numpy==2.4.4\n[pip3] torch==2.11.0\n[conda] Could not collect",
+  "transformers_version": "5.5.1",
+  "lm_eval_version": "0.4.11",
+  "upper_git_hash": null,
+  "tokenizer_pad_token": [
+    "<|endoftext|>",
+    "151643"
+  ],
+  "tokenizer_eos_token": [
+    "<|endoftext|>",
+    "151643"
+  ],
+  "tokenizer_bos_token": [
+    null,
+    "None"
+  ],
+  "eot_token_id": 151643,
+  "max_length": 32768,
+  "task_hashes": {
+    "minerva_math_algebra": "13a0d3f423c8042fbc328ef2e1af54510ed0aaf88f58f6d82681ac91851235c1",
+    "minerva_math_counting_and_prob": "837c4fb02c8e3665b9c57296bb267971f39c97b3245d47e69084c1c2f8153389",
+    "minerva_math_geometry": "be6b3d81f2344d0a8bec92cd7d1b6dbb8042e3a32fa48107a2a2998252909d59",
+    "minerva_math_intermediate_algebra": "7f8f035d4f5f8b84dad172139f858e1b7008f9f3027e9869b5bef6a3cdeac5bf",
+    "minerva_math_num_theory": "899c7602ed88c91257bf3ae55ab36d2cf21d9299cde88ddfe2c846721c54044d",
+    "minerva_math_prealgebra": "05f827a8171e6f212d9ca5749bdee3b4c21fe8bc54a1bf6f7a42e7ac9970b8ce",
+    "minerva_math_precalc": "85d4904c85ee072ec8e824745028db27e1111440172f5e8ad37238bae85c9042"
+  },
+  "model_source": "hf",
+  "model_name": "grpo_trl_model",
+  "model_name_sanitized": "grpo_trl_model",
+  "system_instruction": null,
+  "system_instruction_sha": null,
+  "fewshot_as_multiturn": null,
+  "chat_template": null,
+  "chat_template_sha": null,
+  "total_evaluation_time_seconds": "10966.908532040998"
+}
