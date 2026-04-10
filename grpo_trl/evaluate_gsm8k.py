@@ -66,14 +66,16 @@ def extract_balanced_braces(text: str, start_idx: int) -> str | None:
     return None
 
 
-def extract_boxed_answer(text: str) -> str | None:
-    match = BOXED_RE.search(text)
-    if not match:
-        return None
-    brace_start = text.find("{", match.start())
-    if brace_start < 0:
-        return None
-    return extract_balanced_braces(text, brace_start)
+def extract_boxed_answers(text: str) -> list[str]:
+    answers: list[str] = []
+    for match in BOXED_RE.finditer(text):
+        brace_start = text.find("{", match.start())
+        if brace_start < 0:
+            continue
+        boxed = extract_balanced_braces(text, brace_start)
+        if boxed is not None:
+            answers.append(boxed)
+    return answers
 
 
 def normalize_answer(text: str) -> str:
@@ -85,9 +87,10 @@ def normalize_answer(text: str) -> str:
 
 
 def extract_pred_answer(text: str) -> str:
-    boxed = extract_boxed_answer(text)
-    if boxed is not None:
-        return normalize_answer(boxed)
+    boxed_answers = extract_boxed_answers(text)
+    if boxed_answers:
+        # Prefer the last boxed answer in case the model rambles and revises itself.
+        return normalize_answer(boxed_answers[-1])
 
     matches = NUMBER_RE.findall(text)
     if matches:
