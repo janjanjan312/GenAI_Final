@@ -60,12 +60,6 @@ TASK_CONFIGS = {
         "num_fewshot": 8,
         "metric_key": "exact_match,strict-match",
     },
-    "minerva_math": {
-        "task": "minerva_math",
-        "description": "MATH benchmark (competition-level math)",
-        "num_fewshot": 4,
-        "metric_key": "exact_match",
-    },
     "mmlu": {
         "task": "mmlu",
         "description": "Massive Multitask Language Understanding (general QA)",
@@ -99,9 +93,9 @@ TASK_CONFIGS = {
 }
 
 TASK_PRESETS = {
-    "math_only": ["gsm8k", "minerva_math"],
-    "math_and_general": ["gsm8k", "minerva_math", "mmlu", "hellaswag"],
-    "full": ["gsm8k", "minerva_math", "mmlu", "hellaswag", "arc_easy", "winogrande"],
+    "math_only": ["gsm8k"],
+    "math_and_general": ["gsm8k", "mmlu", "hellaswag"],
+    "full": ["gsm8k", "mmlu", "hellaswag", "arc_easy", "winogrande"],
     "quick": ["gsm8k", "arc_easy"],
 }
 

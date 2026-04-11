@@ -6,7 +6,6 @@
 #   Part 1: Custom evaluator on GSM8K — deep analysis (failure modes, format
 #           drift, error classification, pass@k)
 #   Part 2: lm-eval-harness — standardized benchmarks
-#           - minerva_math  (competition math, replaces custom MATH-500)
 #           - mmlu           (general QA — detect RL capability degradation)
 #           - arc_easy       (science reasoning)
 #
@@ -64,9 +63,9 @@ if [ "$QUICK" = "1" ]; then
     LM_EVAL_LIMIT=30
     echo "=== QUICK MODE: limit=$LIMIT, max_tokens=$MAX_TOKENS ==="
 else
-    LIMIT=100
-    MAX_TOKENS=256
-    PASS_K_SAMPLES=2
+    LIMIT=300
+    MAX_TOKENS=1024
+    PASS_K_SAMPLES=3
 fi
 
 mkdir -p "$RESULTS_DIR"
@@ -120,7 +119,7 @@ if should_run base; then
         --max-new-tokens "$MAX_TOKENS" \
         --prompt-style xml \
         --device "$DEVICE" \
-        --output "$RESULTS_DIR/base_gsm8k_xml.json" \
+        --output "$RESULTS_DIR/base_gsm8k_xml_${MAX_TOKENS}_${LIMIT}.json" \
         --save-outputs \
         --resume
 fi
@@ -144,7 +143,7 @@ if should_run sft; then
         --max-new-tokens "$MAX_TOKENS" \
         --prompt-style xml \
         --device "$DEVICE" \
-        --output "$RESULTS_DIR/sft_gsm8k_xml.json" \
+        --output "$RESULTS_DIR/sft_gsm8k_xml_${MAX_TOKENS}_${LIMIT}.json" \
         --save-outputs \
         --resume
 fi
@@ -165,7 +164,7 @@ if should_run grpo; then
         --num-samples "$PASS_K_SAMPLES" \
         --pass-k 1 \
         --sampling-temperature 0.7 \
-        --output "$RESULTS_DIR/grpo_gsm8k_xml.json" \
+        --output "$RESULTS_DIR/grpo_gsm8k_xml_${MAX_TOKENS}_${LIMIT}.json" \
         --save-outputs \
         --resume
 fi
@@ -181,7 +180,7 @@ echo "============================================================"
 COMPARE_INPUTS=()
 COMPARE_LABELS=()
 for stage in base sft grpo; do
-    f="$RESULTS_DIR/${stage}_gsm8k_xml.json"
+    f="$RESULTS_DIR/${stage}_gsm8k_xml_${MAX_TOKENS}_${LIMIT}.json"
     if [ -f "$f" ]; then
         COMPARE_INPUTS+=("$f")
         COMPARE_LABELS+=("$stage")
@@ -202,7 +201,6 @@ fi
 # =============================================================================
 # Part 2: lm-eval-harness — standardized benchmarks
 #
-# minerva_math : competition-level math (replaces custom MATH-500 eval)
 # mmlu         : general QA — "Does RL hurt general QA?"
 # arc_easy     : science reasoning
 # =============================================================================
@@ -216,7 +214,7 @@ if [ "$SKIP_LM_EVAL" != "1" ]; then
         if [ "$QUICK" = "1" ]; then
             LM_EVAL_TASK_LIST="arc_easy"
         else
-            LM_EVAL_TASK_LIST="minerva_math mmlu arc_easy"
+            LM_EVAL_TASK_LIST="mmlu arc_easy"
         fi
         LM_EVAL_LIMIT_FLAG="--limit $LM_EVAL_LIMIT"
 
@@ -281,10 +279,8 @@ echo "============================================================"
 echo ""
 echo " Key output files:"
 echo "   Custom evaluator (GSM8K deep analysis):"
-echo "     $RESULTS_DIR/{base,sft,grpo}_gsm8k_xml.json"
+echo "     $RESULTS_DIR/{base,sft,grpo}_gsm8k_xml_${MAX_TOKENS}_${LIMIT}.json"
 echo "     $RESULTS_DIR/gsm8k_comparison.md"
-echo "   lm-eval-harness (standardized benchmarks):"
-echo "     $RESULTS_DIR/lm_eval/*_summary.json"
 echo "============================================================"
 
 if [ "$FAIL_COUNT" -gt 0 ]; then
