@@ -1,0 +1,1129 @@
+{
+  "summary": {
+    "model": "/workspace/GenAI_Final/models/Qwen2.5-0.5B",
+    "adapter": "/workspace/GenAI_Final/ablation/runs/01_wo_difficulty_band",
+    "dataset": "jsonl",
+    "dataset_path": "/workspace/GenAI_Final/evaluation/deepmath_phase_a_alpaca_smoke_200.jsonl",
+    "split": "test",
+    "limit": 30,
+    "batch_size": 4,
+    "max_new_tokens": 1024,
+    "temperature": 0.0,
+    "top_p": 1.0,
+    "prompt_style": "xml",
+    "device": "cuda",
+    "accuracy": 0.06666666666666667,
+    "num_correct": 2,
+    "strict_accuracy": 0.0,
+    "strict_num_correct": 0,
+    "content_accuracy": 0.26666666666666666,
+    "content_correct_count": 8,
+    "format_conditioned_accuracy": 0.0,
+    "explicit_final_answer_rate": 0.06666666666666667,
+    "truncated_rate": 0.9333333333333333,
+    "has_think_rate": 0.0,
+    "has_answer_rate": 0.0,
+    "has_single_boxed_rate": 0.0,
+    "exact_xml_boxed_rate": 0.0,
+    "extraction_source_distribution": {
+      "last_number": 28,
+      "the_answer_is": 2
+    },
+    "reasoning_quality": {
+      "avg_word_count": 618.7,
+      "avg_reasoning_steps": 4.63,
+      "truncation_rate": 0.9333,
+      "repetition_rate": 0.5,
+      "avg_repetition_ratio": 0.2297,
+      "degeneration_rate": 0.5
+    },
+    "error_classification": {
+      "counts": {
+        "truncation": 15,
+        "degeneration": 13,
+        "correct": 2
+      },
+      "rates": {
+        "truncation": 0.5,
+        "degeneration": 0.4333,
+        "correct": 0.0667
+      }
+    }
+  },
+  "by_difficulty_bucket": {
+    "[3,5)": {
+      "count": 6,
+      "accuracy": 0.0,
+      "exact_xml_rate": 0.0
+    },
+    "[5,7)": {
+      "count": 19,
+      "accuracy": 0.0,
+      "exact_xml_rate": 0.0
+    },
+    "[7,10]": {
+      "count": 5,
+      "accuracy": 0.4,
+      "exact_xml_rate": 0.0
+    }
+  },
+  "by_topic": {
+    "Mathematics -> Algebra -> Algebra -> Equations and Inequalities": {
+      "count": 1,
+      "accuracy": 0.0,
+      "exact_xml_rate": 0.0
+    },
+    "Mathematics -> Algebra -> Algebra -> Polynomial Operations": {
+      "count": 1,
+      "accuracy": 0.0,
+      "exact_xml_rate": 0.0
+    },
+    "Mathematics -> Algebra -> Intermediate Algebra -> Complex Numbers": {
+      "count": 1,
+      "accuracy": 0.0,
+      "exact_xml_rate": 0.0
+    },
+    "Mathematics -> Algebra -> Linear Algebra -> Linear Transformations": {
+      "count": 2,
+      "accuracy": 0.0,
+      "exact_xml_rate": 0.0
+    },
+    "Mathematics -> Algebra -> Linear Algebra -> Matrices": {
+      "count": 2,
+      "accuracy": 0.0,
+      "exact_xml_rate": 0.0
+    },
+    "Mathematics -> Algebra -> Linear Algebra -> Vectors": {
+      "count": 1,
+      "accuracy": 0.0,
+      "exact_xml_rate": 0.0
+    },
+    "Mathematics -> Applied Mathematics -> Math Word Problems": {
+      "count": 2,
+      "accuracy": 0.0,
+      "exact_xml_rate": 0.0
+    },
+    "Mathematics -> Applied Mathematics -> Statistics -> Probability -> Other": {
+      "count": 3,
+      "accuracy": 0.3333333333333333,
+      "exact_xml_rate": 0.0
+    },
+    "Mathematics -> Calculus -> Differential Calculus -> Applications of Derivatives": {
+      "count": 2,
+      "accuracy": 0.0,
+      "exact_xml_rate": 0.0
+    },
+    "Mathematics -> Calculus -> Differential Calculus -> Derivatives": {
+      "count": 1,
+      "accuracy": 0.0,
+      "exact_xml_rate": 0.0
+    },
+    "Mathematics -> Calculus -> Integral Calculus -> Applications of Integrals": {
+      "count": 3,
+      "accuracy": 0.3333333333333333,
+      "exact_xml_rate": 0.0
+    },
+    "Mathematics -> Calculus -> Integral Calculus -> Techniques of Integration -> Multi-variable": {
+      "count": 1,
+      "accuracy": 0.0,
+      "exact_xml_rate": 0.0
+    },
+    "Mathematics -> Calculus -> Integral Calculus -> Techniques of Integration -> Single-variable": {
+      "count": 2,
+      "accuracy": 0.0,
+      "exact_xml_rate": 0.0
+    },
+    "Mathematics -> Geometry -> Solid Geometry -> 3D Shapes": {
+      "count": 1,
+      "accuracy": 0.0,
+      "exact_xml_rate": 0.0
+    },
+    "Mathematics -> Number Theory -> Congruences": {
+      "count": 2,
+      "accuracy": 0.0,
+      "exact_xml_rate": 0.0
+    },
+    "Mathematics -> Number Theory -> Factorization": {
+      "count": 1,
+      "accuracy": 0.0,
+      "exact_xml_rate": 0.0
+    },
+    "Mathematics -> Other": {
+      "count": 2,
+      "accuracy": 0.0,
+      "exact_xml_rate": 0.0
+    },
+    "Mathematics -> Precalculus -> Limits": {
+      "count": 1,
+      "accuracy": 0.0,
+      "exact_xml_rate": 0.0
+    },
+    "Mathematics -> Precalculus -> Trigonometric Functions": {
+      "count": 1,
+      "accuracy": 0.0,
+      "exact_xml_rate": 0.0
+    }
+  },
+  "results": [
+    {
+      "question": "Let \\(P(x) = x^4 + ax^3 + bx^2 + cx + d\\) be a polynomial where \\(a, b, c, d\\) are integers. Given that \\(P(x)\\) has remainders 24, -6, 4, -6, and 24 when divided by \\(x-2012\\), \\(x-2013\\), \\(x-2014\\), \\(x-2015\\), and \\(x-2016\\) respectively, find the remainder when \\(P(x)\\) is divided by \\(x-2017\\).",
+      "gold_answer": "274",
+      "pred_answer": "201",
+      "correct": false,
+      "content_correct": false,
+      "error_type": "truncation",
+      "extraction_source": "last_number",
+      "strict_pred_answer": null,
+      "strict_correct": false,
+      "strict_extraction_source": null,
+      "has_explicit_final_answer": false,
+      "is_truncated": true,
+      "topic": "Mathematics -> Algebra -> Algebra -> Polynomial Operations",
+      "difficulty": 6.0,
+      "xml_metrics": {
+        "has_think": false,
+        "has_answer": false,
+        "boxed_count": 0,
+        "has_single_boxed": false,
+        "exact_xml_boxed": false
+      },
+      "reasoning_quality": {
+        "word_count": 536,
+        "reasoning_steps": 5,
+        "is_truncated": true,
+        "has_repetition": false,
+        "repetition_ratio": 0.1032,
+        "longest_repeated_span": 9,
+        "is_degenerate": false
+      }
+    },
+    {
+      "question": "Let \\(T: \\mathbb{R}^n \\to \\mathbb{R}^m\\) be a linear map such that \\(\\langle Tx, Ty \\rangle_m = \\langle x, y \\rangle_n\\) for all vectors \\(x, y \\in \\mathbb{R}^n\\), where \\(\\langle , \\rangle_n\\) and \\(\\langle , \\rangle_m\\) denote the standard inner products on \\(\\mathbb{R}^n\\) and \\(\\mathbb{R}^m\\), respectively. Which of the following is necessarily true?\\\n(a) \\(n \\geq m\\) \\\n(b) \\(n \\leq m\\) \\\n(c) \\(n = m\\) \\\n(d) The map \\(T\\) is onto.",
+      "gold_answer": "B",
+      "pred_answer": "0.",
+      "correct": false,
+      "content_correct": false,
+      "error_type": "degeneration",
+      "extraction_source": "last_number",
+      "strict_pred_answer": null,
+      "strict_correct": false,
+      "strict_extraction_source": null,
+      "has_explicit_final_answer": false,
+      "is_truncated": true,
+      "topic": "Mathematics -> Algebra -> Linear Algebra -> Linear Transformations",
+      "difficulty": 5.0,
+      "xml_metrics": {
+        "has_think": false,
+        "has_answer": false,
+        "boxed_count": 0,
+        "has_single_boxed": false,
+        "exact_xml_boxed": false
+      },
+      "reasoning_quality": {
+        "word_count": 732,
+        "reasoning_steps": 2,
+        "is_truncated": true,
+        "has_repetition": true,
+        "repetition_ratio": 0.2894,
+        "longest_repeated_span": 20,
+        "is_degenerate": true
+      }
+    },
+    {
+      "question": "Evaluate the integral \\(\\iint_{x^2+y^2 \\leq a^2} |xy| \\, dx \\, dy\\), where the region of integration is the area inside the circle \\(x^2 + y^2 = a^2\\).",
+      "gold_answer": "\\dfrac{a^4}{2}",
+      "pred_answer": "0.",
+      "correct": false,
+      "content_correct": false,
+      "error_type": "truncation",
+      "extraction_source": "last_number",
+      "strict_pred_answer": null,
+      "strict_correct": false,
+      "strict_extraction_source": null,
+      "has_explicit_final_answer": false,
+      "is_truncated": true,
+      "topic": "Mathematics -> Calculus -> Integral Calculus -> Applications of Integrals",
+      "difficulty": 6.0,
+      "xml_metrics": {
+        "has_think": false,
+        "has_answer": false,
+        "boxed_count": 0,
+        "has_single_boxed": false,
+        "exact_xml_boxed": false
+      },
+      "reasoning_quality": {
+        "word_count": 664,
+        "reasoning_steps": 6,
+        "is_truncated": true,
+        "has_repetition": false,
+        "repetition_ratio": 0.1513,
+        "longest_repeated_span": 14,
+        "is_degenerate": false
+      }
+    },
+    {
+      "question": "Determine whether there exists a non-linear map \\( f: \\mathbb{R}^2 \\to \\mathbb{R} \\) such that \\( f(av) = af(v) \\) for all \\( a \\in \\mathbb{R} \\) and \\( v \\in \\mathbb{R}^2 \\).",
+      "gold_answer": "Yes",
+      "pred_answer": "no",
+      "correct": false,
+      "content_correct": false,
+      "error_type": "degeneration",
+      "extraction_source": "the_answer_is",
+      "strict_pred_answer": "no",
+      "strict_correct": false,
+      "strict_extraction_source": "the_answer_is",
+      "has_explicit_final_answer": true,
+      "is_truncated": true,
+      "topic": "Mathematics -> Algebra -> Linear Algebra -> Linear Transformations",
+      "difficulty": 6.0,
+      "xml_metrics": {
+        "has_think": false,
+        "has_answer": false,
+        "boxed_count": 0,
+        "has_single_boxed": false,
+        "exact_xml_boxed": false
+      },
+      "reasoning_quality": {
+        "word_count": 792,
+        "reasoning_steps": 1,
+        "is_truncated": true,
+        "has_repetition": true,
+        "repetition_ratio": 0.4119,
+        "longest_repeated_span": 30,
+        "is_degenerate": true
+      }
+    },
+    {
+      "question": "Determine whether a non-Hausdorff compactification of \\(\\mathbb{Z}\\) with two points at infinity, whose neighborhood bases consist of sets with finite complements, is first countable.",
+      "gold_answer": "Yes",
+      "pred_answer": "1",
+      "correct": false,
+      "content_correct": false,
+      "error_type": "degeneration",
+      "extraction_source": "last_number",
+      "strict_pred_answer": null,
+      "strict_correct": false,
+      "strict_extraction_source": null,
+      "has_explicit_final_answer": false,
+      "is_truncated": true,
+      "topic": "Mathematics -> Other",
+      "difficulty": 8.0,
+      "xml_metrics": {
+        "has_think": false,
+        "has_answer": false,
+        "boxed_count": 0,
+        "has_single_boxed": false,
+        "exact_xml_boxed": false
+      },
+      "reasoning_quality": {
+        "word_count": 715,
+        "reasoning_steps": 1,
+        "is_truncated": true,
+        "has_repetition": true,
+        "repetition_ratio": 0.6587,
+        "longest_repeated_span": 30,
+        "is_degenerate": true
+      }
+    },
+    {
+      "question": "Find the median of the random variable $Y = e^Z$, where $Z$ is a standard normal distribution ($Z \\sim N(0,1)$).",
+      "gold_answer": "1",
+      "pred_answer": "2.",
+      "correct": false,
+      "content_correct": true,
+      "error_type": "truncation",
+      "extraction_source": "last_number",
+      "strict_pred_answer": null,
+      "strict_correct": false,
+      "strict_extraction_source": null,
+      "has_explicit_final_answer": false,
+      "is_truncated": true,
+      "topic": "Mathematics -> Applied Mathematics -> Statistics -> Probability -> Other",
+      "difficulty": 5.5,
+      "xml_metrics": {
+        "has_think": false,
+        "has_answer": false,
+        "boxed_count": 0,
+        "has_single_boxed": false,
+        "exact_xml_boxed": false
+      },
+      "reasoning_quality": {
+        "word_count": 642,
+        "reasoning_steps": 7,
+        "is_truncated": true,
+        "has_repetition": false,
+        "repetition_ratio": 0.0642,
+        "longest_repeated_span": 8,
+        "is_degenerate": false
+      }
+    },
+    {
+      "question": "Let $U\\subseteq\\mathbb{R}^n$ and $V\\subseteq\\mathbb{R}^m$ be open sets, and consider functions $f:U\\to\\mathbb{R}$ and $g_1, g_2, \\dots, g_n:V\\to\\mathbb{R}$ such that $(g_1(x), g_2(x), \\dots, g_n(x)) \\in U$ for all $x \\in V$. Given $x_0 \\in V$ and $j \\in \\{1, \\dots, n\\}$, if $f$ is differentiable at $y_0 = (g_1(x_0), g_2(x_0), \\dots, g_n(x_0))$ and the partial derivative $\\frac{\\partial g_i}{\\partial x_j}(x_0)$ exists for $i = 1, \\dots, n$, does the relationship $y_i = g_i(x_0)$ hold? Answer 'yes' or 'no'.",
+      "gold_answer": "yes",
+      "pred_answer": "0",
+      "correct": false,
+      "content_correct": false,
+      "error_type": "degeneration",
+      "extraction_source": "last_number",
+      "strict_pred_answer": null,
+      "strict_correct": false,
+      "strict_extraction_source": null,
+      "has_explicit_final_answer": false,
+      "is_truncated": true,
+      "topic": "Mathematics -> Calculus -> Differential Calculus -> Derivatives",
+      "difficulty": 4.5,
+      "xml_metrics": {
+        "has_think": false,
+        "has_answer": false,
+        "boxed_count": 0,
+        "has_single_boxed": false,
+        "exact_xml_boxed": false
+      },
+      "reasoning_quality": {
+        "word_count": 685,
+        "reasoning_steps": 1,
+        "is_truncated": true,
+        "has_repetition": true,
+        "repetition_ratio": 0.39,
+        "longest_repeated_span": 30,
+        "is_degenerate": true
+      }
+    },
+    {
+      "question": "Evaluate the line integral \\(\\oint_{\\partial T} \\vec{F} \\cdot \\hat{a} \\, ds\\) for the vector field \\(\\vec{F}(x,y) = (2x^2 + 3x -2 \\cos^4(y) \\sin^3(y) , 4 e^{2x} \\sinh(x) - 3y)\\) and the triangle \\(T\\) with vertices \\((-1,0)\\), \\((1,1)\\), and \\((0,2)\\), traversed counterclockwise. The outward normal to \\(T\\) in the \\(xy\\) plane is \\(\\hat{a}\\).",
+      "gold_answer": "0",
+      "pred_answer": "2",
+      "correct": false,
+      "content_correct": true,
+      "error_type": "truncation",
+      "extraction_source": "last_number",
+      "strict_pred_answer": null,
+      "strict_correct": false,
+      "strict_extraction_source": null,
+      "has_explicit_final_answer": false,
+      "is_truncated": true,
+      "topic": "Mathematics -> Calculus -> Integral Calculus -> Techniques of Integration -> Multi-variable",
+      "difficulty": 6.0,
+      "xml_metrics": {
+        "has_think": false,
+        "has_answer": false,
+        "boxed_count": 0,
+        "has_single_boxed": false,
+        "exact_xml_boxed": false
+      },
+      "reasoning_quality": {
+        "word_count": 540,
+        "reasoning_steps": 8,
+        "is_truncated": true,
+        "has_repetition": false,
+        "repetition_ratio": 0.1136,
+        "longest_repeated_span": 9,
+        "is_degenerate": false
+      }
+    },
+    {
+      "question": "Compute the expectation of the random variable $X$ with the cumulative distribution function (CDF) given by \\[ F_X(x) = \\frac{1}{27}\\min\\{\\lfloor x\\rfloor, 3\\}^3 \\] for $x \\geq 0$. Consider any issues that may arise with the derivative of the floor function.",
+      "gold_answer": "\\dfrac{8}{3}",
+      "pred_answer": "4",
+      "correct": false,
+      "content_correct": false,
+      "error_type": "degeneration",
+      "extraction_source": "last_number",
+      "strict_pred_answer": null,
+      "strict_correct": false,
+      "strict_extraction_source": null,
+      "has_explicit_final_answer": false,
+      "is_truncated": false,
+      "topic": "Mathematics -> Applied Mathematics -> Statistics -> Probability -> Other",
+      "difficulty": 5.5,
+      "xml_metrics": {
+        "has_think": false,
+        "has_answer": false,
+        "boxed_count": 0,
+        "has_single_boxed": false,
+        "exact_xml_boxed": false
+      },
+      "reasoning_quality": {
+        "word_count": 531,
+        "reasoning_steps": 4,
+        "is_truncated": false,
+        "has_repetition": true,
+        "repetition_ratio": 0.1364,
+        "longest_repeated_span": 19,
+        "is_degenerate": true
+      }
+    },
+    {
+      "question": "What is the radius, in inches, of a right circular cylinder if its lateral surface area is $3.5$ square inches and its volume is $3.5$ cubic inches?",
+      "gold_answer": "2",
+      "pred_answer": "7",
+      "correct": false,
+      "content_correct": true,
+      "error_type": "truncation",
+      "extraction_source": "last_number",
+      "strict_pred_answer": null,
+      "strict_correct": false,
+      "strict_extraction_source": null,
+      "has_explicit_final_answer": false,
+      "is_truncated": true,
+      "topic": "Mathematics -> Geometry -> Solid Geometry -> 3D Shapes",
+      "difficulty": 4.0,
+      "xml_metrics": {
+        "has_think": false,
+        "has_answer": false,
+        "boxed_count": 0,
+        "has_single_boxed": false,
+        "exact_xml_boxed": false
+      },
+      "reasoning_quality": {
+        "word_count": 542,
+        "reasoning_steps": 9,
+        "is_truncated": true,
+        "has_repetition": false,
+        "repetition_ratio": 0.0668,
+        "longest_repeated_span": 15,
+        "is_degenerate": false
+      }
+    },
+    {
+      "question": "Simplify $\\cos 10^\\circ \\cos 30^\\circ \\cos 50^\\circ \\cos 70^\\circ.$",
+      "gold_answer": "\\frac{3}{16}",
+      "pred_answer": "20",
+      "correct": false,
+      "content_correct": false,
+      "error_type": "truncation",
+      "extraction_source": "last_number",
+      "strict_pred_answer": null,
+      "strict_correct": false,
+      "strict_extraction_source": null,
+      "has_explicit_final_answer": false,
+      "is_truncated": true,
+      "topic": "Mathematics -> Precalculus -> Trigonometric Functions",
+      "difficulty": 3.0,
+      "xml_metrics": {
+        "has_think": false,
+        "has_answer": false,
+        "boxed_count": 0,
+        "has_single_boxed": false,
+        "exact_xml_boxed": false
+      },
+      "reasoning_quality": {
+        "word_count": 388,
+        "reasoning_steps": 8,
+        "is_truncated": true,
+        "has_repetition": false,
+        "repetition_ratio": 0.1481,
+        "longest_repeated_span": 10,
+        "is_degenerate": false
+      }
+    },
+    {
+      "question": "Evaluate the limit of the integral \\( \\int_x^{3x}\\frac{1}{\\arctan t}dt \\) as \\( x \\rightarrow +\\infty \\).",
+      "gold_answer": "\\infty",
+      "pred_answer": "2",
+      "correct": false,
+      "content_correct": false,
+      "error_type": "truncation",
+      "extraction_source": "last_number",
+      "strict_pred_answer": null,
+      "strict_correct": false,
+      "strict_extraction_source": null,
+      "has_explicit_final_answer": false,
+      "is_truncated": true,
+      "topic": "Mathematics -> Calculus -> Integral Calculus -> Techniques of Integration -> Single-variable",
+      "difficulty": 6.0,
+      "xml_metrics": {
+        "has_think": false,
+        "has_answer": false,
+        "boxed_count": 0,
+        "has_single_boxed": false,
+        "exact_xml_boxed": false
+      },
+      "reasoning_quality": {
+        "word_count": 630,
+        "reasoning_steps": 7,
+        "is_truncated": true,
+        "has_repetition": false,
+        "repetition_ratio": 0.0781,
+        "longest_repeated_span": 11,
+        "is_degenerate": false
+      }
+    },
+    {
+      "question": "Determine the number of positive integer pairs \\((x, y)\\) that satisfy the equation \\(y^2 - x^2 = 2y + 7x + 4\\).",
+      "gold_answer": "1",
+      "pred_answer": "6,",
+      "correct": false,
+      "content_correct": true,
+      "error_type": "truncation",
+      "extraction_source": "last_number",
+      "strict_pred_answer": null,
+      "strict_correct": false,
+      "strict_extraction_source": null,
+      "has_explicit_final_answer": false,
+      "is_truncated": true,
+      "topic": "Mathematics -> Algebra -> Algebra -> Equations and Inequalities",
+      "difficulty": 5.0,
+      "xml_metrics": {
+        "has_think": false,
+        "has_answer": false,
+        "boxed_count": 0,
+        "has_single_boxed": false,
+        "exact_xml_boxed": false
+      },
+      "reasoning_quality": {
+        "word_count": 631,
+        "reasoning_steps": 6,
+        "is_truncated": true,
+        "has_repetition": false,
+        "repetition_ratio": 0.1083,
+        "longest_repeated_span": 9,
+        "is_degenerate": false
+      }
+    },
+    {
+      "question": "Determine the largest natural number \\( n \\) such that \\( n \\) divides \\( a^{25} - a \\) for every integer \\( a \\).",
+      "gold_answer": "2730",
+      "pred_answer": "4",
+      "correct": false,
+      "content_correct": false,
+      "error_type": "truncation",
+      "extraction_source": "last_number",
+      "strict_pred_answer": null,
+      "strict_correct": false,
+      "strict_extraction_source": null,
+      "has_explicit_final_answer": false,
+      "is_truncated": true,
+      "topic": "Mathematics -> Number Theory -> Congruences",
+      "difficulty": 6.0,
+      "xml_metrics": {
+        "has_think": false,
+        "has_answer": false,
+        "boxed_count": 0,
+        "has_single_boxed": false,
+        "exact_xml_boxed": false
+      },
+      "reasoning_quality": {
+        "word_count": 564,
+        "reasoning_steps": 1,
+        "is_truncated": true,
+        "has_repetition": false,
+        "repetition_ratio": 0.2282,
+        "longest_repeated_span": 12,
+        "is_degenerate": false
+      }
+    },
+    {
+      "question": "Find the conditional expectation $E[X|XY]$ where $X$ and $Y$ are independent standard normal random variables.",
+      "gold_answer": "0",
+      "pred_answer": "0",
+      "correct": true,
+      "content_correct": true,
+      "error_type": "correct",
+      "extraction_source": "last_number",
+      "strict_pred_answer": null,
+      "strict_correct": false,
+      "strict_extraction_source": null,
+      "has_explicit_final_answer": false,
+      "is_truncated": false,
+      "topic": "Mathematics -> Applied Mathematics -> Statistics -> Probability -> Other",
+      "difficulty": 7.5,
+      "xml_metrics": {
+        "has_think": false,
+        "has_answer": false,
+        "boxed_count": 0,
+        "has_single_boxed": false,
+        "exact_xml_boxed": false
+      },
+      "reasoning_quality": {
+        "word_count": 726,
+        "reasoning_steps": 2,
+        "is_truncated": false,
+        "has_repetition": true,
+        "repetition_ratio": 0.5878,
+        "longest_repeated_span": 30,
+        "is_degenerate": true
+      }
+    },
+    {
+      "question": "Determine the number of different sets of integers \\((a, b, c)\\) that satisfy the equation \\(\\frac{1}{a} + \\frac{1}{b} + \\frac{1}{c} = \\frac{1}{2}\\), where \\(a, b,\\) and \\(c\\) represent the number of sides of three regular polygons.",
+      "gold_answer": "10",
+      "pred_answer": "1",
+      "correct": false,
+      "content_correct": false,
+      "error_type": "degeneration",
+      "extraction_source": "last_number",
+      "strict_pred_answer": null,
+      "strict_correct": false,
+      "strict_extraction_source": null,
+      "has_explicit_final_answer": false,
+      "is_truncated": true,
+      "topic": "Mathematics -> Number Theory -> Factorization",
+      "difficulty": 5.0,
+      "xml_metrics": {
+        "has_think": false,
+        "has_answer": false,
+        "boxed_count": 0,
+        "has_single_boxed": false,
+        "exact_xml_boxed": false
+      },
+      "reasoning_quality": {
+        "word_count": 658,
+        "reasoning_steps": 1,
+        "is_truncated": true,
+        "has_repetition": true,
+        "repetition_ratio": 0.4092,
+        "longest_repeated_span": 30,
+        "is_degenerate": true
+      }
+    },
+    {
+      "question": "Compute the derivative of the function \\( f(W) = x^TWW^Tx \\) with respect to the matrix \\( W \\), where \\( x \\) is an \\( n \\times 1 \\) vector and \\( W \\) is an \\( n \\times m \\) matrix.",
+      "gold_answer": "2xx^TW",
+      "pred_answer": "1",
+      "correct": false,
+      "content_correct": false,
+      "error_type": "degeneration",
+      "extraction_source": "last_number",
+      "strict_pred_answer": null,
+      "strict_correct": false,
+      "strict_extraction_source": null,
+      "has_explicit_final_answer": false,
+      "is_truncated": true,
+      "topic": "Mathematics -> Algebra -> Linear Algebra -> Matrices",
+      "difficulty": 6.0,
+      "xml_metrics": {
+        "has_think": false,
+        "has_answer": false,
+        "boxed_count": 0,
+        "has_single_boxed": false,
+        "exact_xml_boxed": false
+      },
+      "reasoning_quality": {
+        "word_count": 671,
+        "reasoning_steps": 9,
+        "is_truncated": true,
+        "has_repetition": true,
+        "repetition_ratio": 0.2799,
+        "longest_repeated_span": 29,
+        "is_degenerate": true
+      }
+    },
+    {
+      "question": "Determine the values of $b \\in \\mathbb{R}$ for which the matrix \\( \\begin{pmatrix} 4 & -1 & b \\\\ -1 & 2 & -2 \\\\ 0 & -2 & 1 \\end{pmatrix} \\) is positive definite.",
+      "gold_answer": "\\emptyset",
+      "pred_answer": "4",
+      "correct": false,
+      "content_correct": false,
+      "error_type": "degeneration",
+      "extraction_source": "last_number",
+      "strict_pred_answer": null,
+      "strict_correct": false,
+      "strict_extraction_source": null,
+      "has_explicit_final_answer": false,
+      "is_truncated": true,
+      "topic": "Mathematics -> Algebra -> Linear Algebra -> Matrices",
+      "difficulty": 5.5,
+      "xml_metrics": {
+        "has_think": false,
+        "has_answer": false,
+        "boxed_count": 0,
+        "has_single_boxed": false,
+        "exact_xml_boxed": false
+      },
+      "reasoning_quality": {
+        "word_count": 616,
+        "reasoning_steps": 10,
+        "is_truncated": true,
+        "has_repetition": true,
+        "repetition_ratio": 0.0962,
+        "longest_repeated_span": 20,
+        "is_degenerate": true
+      }
+    },
+    {
+      "question": "Find the remainder when \\(666^{666}\\) is divided by 1000.",
+      "gold_answer": "16",
+      "pred_answer": "2",
+      "correct": false,
+      "content_correct": true,
+      "error_type": "truncation",
+      "extraction_source": "last_number",
+      "strict_pred_answer": null,
+      "strict_correct": false,
+      "strict_extraction_source": null,
+      "has_explicit_final_answer": false,
+      "is_truncated": true,
+      "topic": "Mathematics -> Number Theory -> Congruences",
+      "difficulty": 5.0,
+      "xml_metrics": {
+        "has_think": false,
+        "has_answer": false,
+        "boxed_count": 0,
+        "has_single_boxed": false,
+        "exact_xml_boxed": false
+      },
+      "reasoning_quality": {
+        "word_count": 463,
+        "reasoning_steps": 9,
+        "is_truncated": true,
+        "has_repetition": false,
+        "repetition_ratio": 0.0065,
+        "longest_repeated_span": 4,
+        "is_degenerate": false
+      }
+    },
+    {
+      "question": "Find the length of the normal chord of the parabola \\(y^2 = 4x\\) that subtends a right angle at the vertex.",
+      "gold_answer": "6\\sqrt{3}",
+      "pred_answer": "0,0",
+      "correct": false,
+      "content_correct": false,
+      "error_type": "degeneration",
+      "extraction_source": "last_number",
+      "strict_pred_answer": null,
+      "strict_correct": false,
+      "strict_extraction_source": null,
+      "has_explicit_final_answer": false,
+      "is_truncated": true,
+      "topic": "Mathematics -> Other",
+      "difficulty": 5.0,
+      "xml_metrics": {
+        "has_think": false,
+        "has_answer": false,
+        "boxed_count": 0,
+        "has_single_boxed": false,
+        "exact_xml_boxed": false
+      },
+      "reasoning_quality": {
+        "word_count": 696,
+        "reasoning_steps": 2,
+        "is_truncated": true,
+        "has_repetition": true,
+        "repetition_ratio": 0.5873,
+        "longest_repeated_span": 30,
+        "is_degenerate": true
+      }
+    },
+    {
+      "question": "A sports conference has 14 teams in two divisions of 7.  How many games are in a complete season for the conference if each team must play every other team in its own division twice and every team in the other division once?",
+      "gold_answer": "133",
+      "pred_answer": "18",
+      "correct": false,
+      "content_correct": false,
+      "error_type": "degeneration",
+      "extraction_source": "last_number",
+      "strict_pred_answer": null,
+      "strict_correct": false,
+      "strict_extraction_source": null,
+      "has_explicit_final_answer": false,
+      "is_truncated": true,
+      "topic": "Mathematics -> Applied Mathematics -> Math Word Problems",
+      "difficulty": 5.0,
+      "xml_metrics": {
+        "has_think": false,
+        "has_answer": false,
+        "boxed_count": 0,
+        "has_single_boxed": false,
+        "exact_xml_boxed": false
+      },
+      "reasoning_quality": {
+        "word_count": 741,
+        "reasoning_steps": 2,
+        "is_truncated": true,
+        "has_repetition": true,
+        "repetition_ratio": 0.2493,
+        "longest_repeated_span": 30,
+        "is_degenerate": true
+      }
+    },
+    {
+      "question": "Evaluate the limit: $$\\lim_{x\\to 0} \\frac{\\int_{x^2}^{x^6}(e^{u^{5}}-1)du}{x^{20}}$$",
+      "gold_answer": "-\\infty",
+      "pred_answer": "0.",
+      "correct": false,
+      "content_correct": false,
+      "error_type": "truncation",
+      "extraction_source": "last_number",
+      "strict_pred_answer": null,
+      "strict_correct": false,
+      "strict_extraction_source": null,
+      "has_explicit_final_answer": false,
+      "is_truncated": true,
+      "topic": "Mathematics -> Calculus -> Integral Calculus -> Techniques of Integration -> Single-variable",
+      "difficulty": 6.0,
+      "xml_metrics": {
+        "has_think": false,
+        "has_answer": false,
+        "boxed_count": 0,
+        "has_single_boxed": false,
+        "exact_xml_boxed": false
+      },
+      "reasoning_quality": {
+        "word_count": 494,
+        "reasoning_steps": 5,
+        "is_truncated": true,
+        "has_repetition": false,
+        "repetition_ratio": 0.0978,
+        "longest_repeated_span": 9,
+        "is_degenerate": false
+      }
+    },
+    {
+      "question": "What is the average student headcount for the spring terms of the `02-`03, `03-`04 and `04-`05 academic years? Express your answer to the nearest whole number.\n\n[asy]\nunitsize(0.35 cm);\n\nfill((1,0)--(1,11.7)--(4,11.7)--(4,0)--cycle,gray(.5));\nfill((4,0)--(4,10.9)--(7,10.9)--(7,0)--cycle,gray(.7));\n\nfill((8,0)--(8,11.5)--(11,11.5)--(11,0)--cycle,gray(.5));\nfill((11,0)--(11,10.5)--(14,10.5)--(14,0)--cycle,gray(.7));\n\nfill((15,0)--(15,11.6)--(18,11.6)--(18,0)--cycle,gray(.5));\nfill((18,0)--(18,10.7)--(21,10.7)--(21,0)--cycle,gray(.7));\n\nfill((22,0)--(22,11.3)--(25,11.3)--(25,0)--cycle,gray(.5));\ndraw((0,0)--(0,15)--(30,15)--(30,0)--cycle,linewidth(1));\nlabel(\"11,700\",(2.5,12.5), fontsize(10));\nlabel(\"10,900\",(5.5,12), fontsize(10));\n\nlabel(\"11,500\",(9.5,12.5), fontsize(10));\nlabel(\"10,500\",(12.5,11.5), fontsize(10));\n\nlabel(\"11,600\",(16.5,12.5), fontsize(10));\nlabel(\"10,700\",(19.5,11.5), fontsize(10));\nlabel(\"11,300\",(23.5,12), fontsize(10));\nlabel(\"Student Headcount (2002-2003 to 2005-2006)\",(15,17));\nlabel(\"'02-'03\",(4,0),S);\nlabel(\"'03-'04\",(11,0),S);\nlabel(\"'04-'05\",(18,0),S);\nlabel(\"'05-'06\",(25,0),S);\nlabel(\"Academic Year\",(15,-2),S);\n\nfill((32,11)--(32,9)--(34,9)--(34,11)--cycle,gray(.5));\nfill((32,8)--(32,6)--(34,6)--(34,8)--cycle,gray(.7));\nlabel(\"Fall \",(34,10),E, fontsize(10));\nlabel(\"Spring \",(34,7),E, fontsize(10));\n\n[/asy]",
+      "gold_answer": "10700",
+      "pred_answer": "4",
+      "correct": false,
+      "content_correct": true,
+      "error_type": "truncation",
+      "extraction_source": "last_number",
+      "strict_pred_answer": null,
+      "strict_correct": false,
+      "strict_extraction_source": null,
+      "has_explicit_final_answer": false,
+      "is_truncated": true,
+      "topic": "Mathematics -> Applied Mathematics -> Math Word Problems",
+      "difficulty": 4.0,
+      "xml_metrics": {
+        "has_think": false,
+        "has_answer": false,
+        "boxed_count": 0,
+        "has_single_boxed": false,
+        "exact_xml_boxed": false
+      },
+      "reasoning_quality": {
+        "word_count": 396,
+        "reasoning_steps": 13,
+        "is_truncated": true,
+        "has_repetition": false,
+        "repetition_ratio": 0.028,
+        "longest_repeated_span": 8,
+        "is_degenerate": false
+      }
+    },
+    {
+      "question": "Determine the radius of convergence of the Taylor series for the function \\( \\frac{2\\tan x}{1+4x^2} \\) around \\( x=0 \\).",
+      "gold_answer": "\\dfrac{1}{2}",
+      "pred_answer": "2",
+      "correct": false,
+      "content_correct": false,
+      "error_type": "degeneration",
+      "extraction_source": "last_number",
+      "strict_pred_answer": null,
+      "strict_correct": false,
+      "strict_extraction_source": null,
+      "has_explicit_final_answer": false,
+      "is_truncated": true,
+      "topic": "Mathematics -> Calculus -> Differential Calculus -> Applications of Derivatives",
+      "difficulty": 7.0,
+      "xml_metrics": {
+        "has_think": false,
+        "has_answer": false,
+        "boxed_count": 0,
+        "has_single_boxed": false,
+        "exact_xml_boxed": false
+      },
+      "reasoning_quality": {
+        "word_count": 635,
+        "reasoning_steps": 3,
+        "is_truncated": true,
+        "has_repetition": true,
+        "repetition_ratio": 0.1661,
+        "longest_repeated_span": 20,
+        "is_degenerate": true
+      }
+    },
+    {
+      "question": "Evaluate the surface integral \\( \\iint_S z^2 \\, dS \\) where \\( S \\) is the surface of the cube defined by \\([-1,1] \\times [-1,1] \\times [-1,1]\\).",
+      "gold_answer": "\\dfrac{40}{3}",
+      "pred_answer": "2",
+      "correct": false,
+      "content_correct": false,
+      "error_type": "degeneration",
+      "extraction_source": "last_number",
+      "strict_pred_answer": null,
+      "strict_correct": false,
+      "strict_extraction_source": null,
+      "has_explicit_final_answer": false,
+      "is_truncated": true,
+      "topic": "Mathematics -> Calculus -> Integral Calculus -> Applications of Integrals",
+      "difficulty": 5.5,
+      "xml_metrics": {
+        "has_think": false,
+        "has_answer": false,
+        "boxed_count": 0,
+        "has_single_boxed": false,
+        "exact_xml_boxed": false
+      },
+      "reasoning_quality": {
+        "word_count": 766,
+        "reasoning_steps": 2,
+        "is_truncated": true,
+        "has_repetition": true,
+        "repetition_ratio": 0.3591,
+        "longest_repeated_span": 30,
+        "is_degenerate": true
+      }
+    },
+    {
+      "question": "Compute the infinite product \\( \\prod_{n=1}^\\infty \\mathrm{e}^{\\frac{\\mathrm{i}\\pi}{2^n}} \\).",
+      "gold_answer": "-1",
+      "pred_answer": "1",
+      "correct": false,
+      "content_correct": false,
+      "error_type": "truncation",
+      "extraction_source": "last_number",
+      "strict_pred_answer": null,
+      "strict_correct": false,
+      "strict_extraction_source": null,
+      "has_explicit_final_answer": false,
+      "is_truncated": true,
+      "topic": "Mathematics -> Algebra -> Intermediate Algebra -> Complex Numbers",
+      "difficulty": 6.0,
+      "xml_metrics": {
+        "has_think": false,
+        "has_answer": false,
+        "boxed_count": 0,
+        "has_single_boxed": false,
+        "exact_xml_boxed": false
+      },
+      "reasoning_quality": {
+        "word_count": 391,
+        "reasoning_steps": 2,
+        "is_truncated": true,
+        "has_repetition": false,
+        "repetition_ratio": 0.0696,
+        "longest_repeated_span": 8,
+        "is_degenerate": false
+      }
+    },
+    {
+      "question": "Find a basis for the direct complement of the subspace \\( L = \\{(z_1, \\ldots, z_n) \\in \\mathbb{C}^n : \\text{Re}(z_i) - \\text{Im}(z_i) = 0, \\ i = 1, \\ldots, n\\} \\) in \\( \\mathbb{C}^n \\). Determine the dimension of this complement.",
+      "gold_answer": "n",
+      "pred_answer": "just the zero vector",
+      "correct": false,
+      "content_correct": false,
+      "error_type": "degeneration",
+      "extraction_source": "the_answer_is",
+      "strict_pred_answer": "just the zero vector",
+      "strict_correct": false,
+      "strict_extraction_source": "the_answer_is",
+      "has_explicit_final_answer": true,
+      "is_truncated": true,
+      "topic": "Mathematics -> Algebra -> Linear Algebra -> Vectors",
+      "difficulty": 4.5,
+      "xml_metrics": {
+        "has_think": false,
+        "has_answer": false,
+        "boxed_count": 0,
+        "has_single_boxed": false,
+        "exact_xml_boxed": false
+      },
+      "reasoning_quality": {
+        "word_count": 652,
+        "reasoning_steps": 3,
+        "is_truncated": true,
+        "has_repetition": true,
+        "repetition_ratio": 0.4237,
+        "longest_repeated_span": 30,
+        "is_degenerate": true
+      }
+    },
+    {
+      "question": "Evaluate the limit: $$\\lim_{\\epsilon \\to 0^{+}} \\frac{\\log(\\left[\\frac{1}{\\epsilon}\\right])}{\\log \\epsilon^{2}}.$$",
+      "gold_answer": "-\\dfrac{1}{2}",
+      "pred_answer": "1",
+      "correct": false,
+      "content_correct": false,
+      "error_type": "truncation",
+      "extraction_source": "last_number",
+      "strict_pred_answer": null,
+      "strict_correct": false,
+      "strict_extraction_source": null,
+      "has_explicit_final_answer": false,
+      "is_truncated": true,
+      "topic": "Mathematics -> Precalculus -> Limits",
+      "difficulty": 4.5,
+      "xml_metrics": {
+        "has_think": false,
+        "has_answer": false,
+        "boxed_count": 0,
+        "has_single_boxed": false,
+        "exact_xml_boxed": false
+      },
+      "reasoning_quality": {
+        "word_count": 599,
+        "reasoning_steps": 8,
+        "is_truncated": true,
+        "has_repetition": false,
+        "repetition_ratio": 0.0889,
+        "longest_repeated_span": 11,
+        "is_degenerate": false
+      }
+    },
+    {
+      "question": "If \\(f:[0,1] \\rightarrow \\mathbb{R}\\) is a strictly increasing discontinuous function, can \\(f([0,1])\\) be a subset of \\(\\mathbb{Q}\\)?",
+      "gold_answer": "No",
+      "pred_answer": "0,1",
+      "correct": false,
+      "content_correct": false,
+      "error_type": "truncation",
+      "extraction_source": "last_number",
+      "strict_pred_answer": null,
+      "strict_correct": false,
+      "strict_extraction_source": null,
+      "has_explicit_final_answer": false,
+      "is_truncated": true,
+      "topic": "Mathematics -> Calculus -> Differential Calculus -> Applications of Derivatives",
+      "difficulty": 7.0,
+      "xml_metrics": {
+        "has_think": false,
+        "has_answer": false,
+        "boxed_count": 0,
+        "has_single_boxed": false,
+        "exact_xml_boxed": false
+      },
+      "reasoning_quality": {
+        "word_count": 708,
+        "reasoning_steps": 1,
+        "is_truncated": true,
+        "has_repetition": false,
+        "repetition_ratio": 0.1816,
+        "longest_repeated_span": 15,
+        "is_degenerate": false
+      }
+    },
+    {
+      "question": "Determine the Lebesgue measure of the set $A$ of all real numbers in the closed interval $[0,1]$ whose decimal representation contains an infinite number of sevens.",
+      "gold_answer": "1",
+      "pred_answer": "1",
+      "correct": true,
+      "content_correct": true,
+      "error_type": "correct",
+      "extraction_source": "last_number",
+      "strict_pred_answer": null,
+      "strict_correct": false,
+      "strict_extraction_source": null,
+      "has_explicit_final_answer": false,
+      "is_truncated": true,
+      "topic": "Mathematics -> Calculus -> Integral Calculus -> Applications of Integrals",
+      "difficulty": 7.5,
+      "xml_metrics": {
+        "has_think": false,
+        "has_answer": false,
+        "boxed_count": 0,
+        "has_single_boxed": false,
+        "exact_xml_boxed": false
+      },
+      "reasoning_quality": {
+        "word_count": 758,
+        "reasoning_steps": 1,
+        "is_truncated": true,
+        "has_repetition": true,
+        "repetition_ratio": 0.3113,
+        "longest_repeated_span": 29,
+        "is_degenerate": true
+      }
+    }
+  ]
+}

@@ -1,0 +1,172 @@
+{
+  "summary": {
+    "model": "models/Qwen2.5-0.5B",
+    "adapter": "ablation/runs/00_full_all_rules",
+    "dataset": "jsonl",
+    "dataset_path": "GenAI_final_project_data/outputs/phase_a_deepmath/deepmath_phase_a_alpaca.jsonl",
+    "split": "test",
+    "limit": 3,
+    "batch_size": 4,
+    "max_new_tokens": 256,
+    "temperature": 0.0,
+    "top_p": 1.0,
+    "prompt_style": "xml",
+    "device": "mps",
+    "accuracy": 0.3333333333333333,
+    "num_correct": 1,
+    "strict_accuracy": 0.0,
+    "strict_num_correct": 0,
+    "content_accuracy": 0.3333333333333333,
+    "content_correct_count": 1,
+    "format_conditioned_accuracy": null,
+    "explicit_final_answer_rate": 0.0,
+    "truncated_rate": 1.0,
+    "has_think_rate": 0.0,
+    "has_answer_rate": 0.0,
+    "has_single_boxed_rate": 0.0,
+    "exact_xml_boxed_rate": 0.0,
+    "extraction_source_distribution": {
+      "last_number": 3
+    },
+    "reasoning_quality": {
+      "avg_word_count": 162.3,
+      "avg_reasoning_steps": 2.0,
+      "truncation_rate": 1.0,
+      "repetition_rate": 0.0,
+      "avg_repetition_ratio": 0.0317,
+      "degeneration_rate": 0.0
+    },
+    "error_classification": {
+      "counts": {
+        "correct": 1,
+        "truncation": 2
+      },
+      "rates": {
+        "correct": 0.3333,
+        "truncation": 0.6667
+      }
+    }
+  },
+  "by_difficulty_bucket": {
+    "[3,5)": {
+      "count": 2,
+      "accuracy": 0.5,
+      "exact_xml_rate": 0.0
+    },
+    "[5,7)": {
+      "count": 1,
+      "accuracy": 0.0,
+      "exact_xml_rate": 0.0
+    }
+  },
+  "by_topic": {
+    "Mathematics -> Differential Equations -> Ordinary Differential Equations (ODEs)": {
+      "count": 1,
+      "accuracy": 0.0,
+      "exact_xml_rate": 0.0
+    },
+    "Mathematics -> Precalculus -> Limits": {
+      "count": 2,
+      "accuracy": 0.5,
+      "exact_xml_rate": 0.0
+    }
+  },
+  "results": [
+    {
+      "question": "Evaluate the limit: \\[ \\lim_{x \\to \\infty} \\sqrt{x} \\left( \\sqrt[3]{x+1} - \\sqrt[3]{x-1} \\right) \\]",
+      "gold_answer": "0",
+      "pred_answer": "0",
+      "correct": true,
+      "content_correct": true,
+      "error_type": "correct",
+      "extraction_source": "last_number",
+      "strict_pred_answer": null,
+      "strict_correct": false,
+      "strict_extraction_source": null,
+      "has_explicit_final_answer": false,
+      "is_truncated": true,
+      "topic": "Mathematics -> Precalculus -> Limits",
+      "difficulty": 4.5,
+      "xml_metrics": {
+        "has_think": false,
+        "has_answer": false,
+        "boxed_count": 0,
+        "has_single_boxed": false,
+        "exact_xml_boxed": false
+      },
+      "reasoning_quality": {
+        "word_count": 168,
+        "reasoning_steps": 1,
+        "is_truncated": true,
+        "has_repetition": false,
+        "repetition_ratio": 0.0061,
+        "longest_repeated_span": 4,
+        "is_degenerate": false
+      }
+    },
+    {
+      "question": "Find the auxiliary equation for the ordinary differential equation with constant coefficients: \\((x^2D^2 + xD + 1)y = \\sin(2\\log x)\\sin(\\log x)\\).",
+      "gold_answer": "m^2 + 1 = 0",
+      "pred_answer": "2",
+      "correct": false,
+      "content_correct": false,
+      "error_type": "truncation",
+      "extraction_source": "last_number",
+      "strict_pred_answer": null,
+      "strict_correct": false,
+      "strict_extraction_source": null,
+      "has_explicit_final_answer": false,
+      "is_truncated": true,
+      "topic": "Mathematics -> Differential Equations -> Ordinary Differential Equations (ODEs)",
+      "difficulty": 5.0,
+      "xml_metrics": {
+        "has_think": false,
+        "has_answer": false,
+        "boxed_count": 0,
+        "has_single_boxed": false,
+        "exact_xml_boxed": false
+      },
+      "reasoning_quality": {
+        "word_count": 168,
+        "reasoning_steps": 2,
+        "is_truncated": true,
+        "has_repetition": false,
+        "repetition_ratio": 0.0485,
+        "longest_repeated_span": 7,
+        "is_degenerate": false
+      }
+    },
+    {
+      "question": "Evaluate the limit: \\[ \\lim_{x \\to 0} \\left(\\dfrac{1}{\\tan^2 x}-\\dfrac{1}{x^2} \\right) \\]",
+      "gold_answer": "-\\dfrac{2}{3}",
+      "pred_answer": "1",
+      "correct": false,
+      "content_correct": false,
+      "error_type": "truncation",
+      "extraction_source": "last_number",
+      "strict_pred_answer": null,
+      "strict_correct": false,
+      "strict_extraction_source": null,
+      "has_explicit_final_answer": false,
+      "is_truncated": true,
+      "topic": "Mathematics -> Precalculus -> Limits",
+      "difficulty": 4.0,
+      "xml_metrics": {
+        "has_think": false,
+        "has_answer": false,
+        "boxed_count": 0,
+        "has_single_boxed": false,
+        "exact_xml_boxed": false
+      },
+      "reasoning_quality": {
+        "word_count": 151,
+        "reasoning_steps": 3,
+        "is_truncated": true,
+        "has_repetition": false,
+        "repetition_ratio": 0.0405,
+        "longest_repeated_span": 7,
+        "is_degenerate": false
+      }
+    }
+  ]
+}

@@ -1,0 +1,1063 @@
+{
+  "baseline": {
+    "name": "00_full_all_rules",
+    "kept_examples": 100891
+  },
+  "variants": [
+    {
+      "name": "00_full_all_rules",
+      "removed_rule": "baseline",
+      "variant_overrides": {},
+      "kept_examples": 100891,
+      "kept_delta": 0,
+      "gsm8k": {
+        "model": "/workspace/GenAI_Final/models/Qwen2.5-0.5B",
+        "adapter": "/workspace/GenAI_Final/ablation/runs/00_full_all_rules",
+        "dataset": "parquet",
+        "dataset_path": "/workspace/GenAI_Final/datasets/gsm8k/main/test-00000-of-00001.parquet",
+        "split": "test",
+        "limit": 30,
+        "batch_size": 4,
+        "max_new_tokens": 1024,
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "prompt_style": "xml",
+        "device": "cuda",
+        "accuracy": 0.16666666666666666,
+        "num_correct": 5,
+        "strict_accuracy": 0.1,
+        "strict_num_correct": 3,
+        "content_accuracy": 0.4,
+        "content_correct_count": 12,
+        "format_conditioned_accuracy": 0.42857142857142855,
+        "explicit_final_answer_rate": 0.23333333333333334,
+        "truncated_rate": 0.8666666666666667,
+        "has_think_rate": 0.0,
+        "has_answer_rate": 0.0,
+        "has_single_boxed_rate": 0.06666666666666667,
+        "exact_xml_boxed_rate": 0.0,
+        "extraction_source_distribution": {
+          "the_answer_is": 4,
+          "last_number": 23,
+          "boxed": 3
+        },
+        "reasoning_quality": {
+          "avg_word_count": 630.2,
+          "avg_reasoning_steps": 5.83,
+          "truncation_rate": 0.8667,
+          "repetition_rate": 0.6667,
+          "avg_repetition_ratio": 0.2572,
+          "degeneration_rate": 0.6667
+        },
+        "error_classification": {
+          "counts": {
+            "correct": 5,
+            "degeneration": 17,
+            "truncation": 7,
+            "computation_error": 1
+          },
+          "rates": {
+            "correct": 0.1667,
+            "degeneration": 0.5667,
+            "truncation": 0.2333,
+            "computation_error": 0.0333
+          }
+        }
+      },
+      "deepmath_smoke": {
+        "model": "/Users/chenshiliang/Desktop/GenAI_Final/models/Qwen2.5-0.5B",
+        "adapter": "/Users/chenshiliang/Desktop/GenAI_Final/ablation/runs/00_full_all_rules",
+        "dataset": "jsonl",
+        "dataset_path": "/Users/chenshiliang/Desktop/GenAI_Final/GenAI_final_project_data/outputs/phase_a_deepmath/deepmath_phase_a_alpaca.jsonl",
+        "split": "test",
+        "limit": 30,
+        "batch_size": 4,
+        "max_new_tokens": 1024,
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "prompt_style": "xml",
+        "device": "mps",
+        "accuracy": 0.06666666666666667,
+        "num_correct": 2,
+        "strict_accuracy": 0.03333333333333333,
+        "strict_num_correct": 1,
+        "content_accuracy": 0.26666666666666666,
+        "content_correct_count": 8,
+        "format_conditioned_accuracy": 0.25,
+        "explicit_final_answer_rate": 0.13333333333333333,
+        "truncated_rate": 0.9333333333333333,
+        "has_think_rate": 0.0,
+        "has_answer_rate": 0.0,
+        "has_single_boxed_rate": 0.0,
+        "exact_xml_boxed_rate": 0.0,
+        "extraction_source_distribution": {
+          "last_number": 24,
+          "full_text": 2,
+          "the_answer_is": 3,
+          "boxed": 1
+        },
+        "reasoning_quality": {
+          "avg_word_count": 590.8,
+          "avg_reasoning_steps": 3.83,
+          "truncation_rate": 0.9333,
+          "repetition_rate": 0.5333,
+          "avg_repetition_ratio": 0.2238,
+          "degeneration_rate": 0.5333
+        },
+        "error_classification": {
+          "counts": {
+            "truncation": 12,
+            "degeneration": 15,
+            "reasoning_error": 1,
+            "correct": 2
+          },
+          "rates": {
+            "truncation": 0.4,
+            "degeneration": 0.5,
+            "reasoning_error": 0.0333,
+            "correct": 0.0667
+          }
+        }
+      },
+      "gsm8k_delta": {
+        "accuracy": 0.0,
+        "strict_accuracy": 0.0,
+        "content_accuracy": 0.0,
+        "exact_xml_boxed_rate": 0.0,
+        "degeneration_rate": 0.0,
+        "truncation_rate": 0.0
+      },
+      "deepmath_smoke_delta": {
+        "accuracy": 0.0,
+        "strict_accuracy": 0.0,
+        "content_accuracy": 0.0,
+        "exact_xml_boxed_rate": 0.0,
+        "degeneration_rate": 0.0,
+        "truncation_rate": 0.0
+      }
+    },
+    {
+      "name": "01_wo_difficulty_band",
+      "removed_rule": "remove difficulty band",
+      "variant_overrides": {
+        "min_difficulty": -1000000000.0,
+        "max_difficulty": 1000000000.0
+      },
+      "kept_examples": 100895,
+      "kept_delta": 4,
+      "gsm8k": {
+        "model": "/workspace/GenAI_Final/models/Qwen2.5-0.5B",
+        "adapter": "/workspace/GenAI_Final/ablation/runs/01_wo_difficulty_band",
+        "dataset": "parquet",
+        "dataset_path": "/workspace/GenAI_Final/datasets/gsm8k/main/test-00000-of-00001.parquet",
+        "split": "test",
+        "limit": 30,
+        "batch_size": 4,
+        "max_new_tokens": 1024,
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "prompt_style": "xml",
+        "device": "cuda",
+        "accuracy": 0.13333333333333333,
+        "num_correct": 4,
+        "strict_accuracy": 0.03333333333333333,
+        "strict_num_correct": 1,
+        "content_accuracy": 0.36666666666666664,
+        "content_correct_count": 11,
+        "format_conditioned_accuracy": 0.16666666666666666,
+        "explicit_final_answer_rate": 0.2,
+        "truncated_rate": 0.8333333333333334,
+        "has_think_rate": 0.0,
+        "has_answer_rate": 0.0,
+        "has_single_boxed_rate": 0.06666666666666667,
+        "exact_xml_boxed_rate": 0.0,
+        "extraction_source_distribution": {
+          "last_number": 24,
+          "the_answer_is": 3,
+          "boxed": 3
+        },
+        "reasoning_quality": {
+          "avg_word_count": 605.6,
+          "avg_reasoning_steps": 4.27,
+          "truncation_rate": 0.8333,
+          "repetition_rate": 0.7,
+          "avg_repetition_ratio": 0.2432,
+          "degeneration_rate": 0.7
+        },
+        "error_classification": {
+          "counts": {
+            "degeneration": 20,
+            "truncation": 4,
+            "correct": 4,
+            "format_only_error": 1,
+            "computation_error": 1
+          },
+          "rates": {
+            "degeneration": 0.6667,
+            "truncation": 0.1333,
+            "correct": 0.1333,
+            "format_only_error": 0.0333,
+            "computation_error": 0.0333
+          }
+        }
+      },
+      "deepmath_smoke": {
+        "model": "/workspace/GenAI_Final/models/Qwen2.5-0.5B",
+        "adapter": "/workspace/GenAI_Final/ablation/runs/01_wo_difficulty_band",
+        "dataset": "jsonl",
+        "dataset_path": "/workspace/GenAI_Final/evaluation/deepmath_phase_a_alpaca_smoke_200.jsonl",
+        "split": "test",
+        "limit": 30,
+        "batch_size": 4,
+        "max_new_tokens": 1024,
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "prompt_style": "xml",
+        "device": "cuda",
+        "accuracy": 0.06666666666666667,
+        "num_correct": 2,
+        "strict_accuracy": 0.0,
+        "strict_num_correct": 0,
+        "content_accuracy": 0.26666666666666666,
+        "content_correct_count": 8,
+        "format_conditioned_accuracy": 0.0,
+        "explicit_final_answer_rate": 0.06666666666666667,
+        "truncated_rate": 0.9333333333333333,
+        "has_think_rate": 0.0,
+        "has_answer_rate": 0.0,
+        "has_single_boxed_rate": 0.0,
+        "exact_xml_boxed_rate": 0.0,
+        "extraction_source_distribution": {
+          "last_number": 28,
+          "the_answer_is": 2
+        },
+        "reasoning_quality": {
+          "avg_word_count": 618.7,
+          "avg_reasoning_steps": 4.63,
+          "truncation_rate": 0.9333,
+          "repetition_rate": 0.5,
+          "avg_repetition_ratio": 0.2297,
+          "degeneration_rate": 0.5
+        },
+        "error_classification": {
+          "counts": {
+            "truncation": 15,
+            "degeneration": 13,
+            "correct": 2
+          },
+          "rates": {
+            "truncation": 0.5,
+            "degeneration": 0.4333,
+            "correct": 0.0667
+          }
+        }
+      },
+      "gsm8k_delta": {
+        "accuracy": -0.033333333333333326,
+        "strict_accuracy": -0.06666666666666668,
+        "content_accuracy": -0.03333333333333338,
+        "exact_xml_boxed_rate": 0.0,
+        "degeneration_rate": 0.033299999999999996,
+        "truncation_rate": -0.033399999999999985
+      },
+      "deepmath_smoke_delta": {
+        "accuracy": 0.0,
+        "strict_accuracy": -0.03333333333333333,
+        "content_accuracy": 0.0,
+        "exact_xml_boxed_rate": 0.0,
+        "degeneration_rate": -0.033299999999999996,
+        "truncation_rate": 0.0
+      }
+    },
+    {
+      "name": "02_wo_question_min_len",
+      "removed_rule": "remove min question length",
+      "variant_overrides": {
+        "min_question_chars": 0
+      },
+      "kept_examples": 100964,
+      "kept_delta": 73,
+      "gsm8k": {
+        "model": "/workspace/GenAI_Final/models/Qwen2.5-0.5B",
+        "adapter": "/workspace/GenAI_Final/ablation/runs/02_wo_question_min_len",
+        "dataset": "parquet",
+        "dataset_path": "/workspace/GenAI_Final/datasets/gsm8k/main/test-00000-of-00001.parquet",
+        "split": "test",
+        "limit": 30,
+        "batch_size": 4,
+        "max_new_tokens": 1024,
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "prompt_style": "xml",
+        "device": "cuda",
+        "accuracy": 0.1,
+        "num_correct": 3,
+        "strict_accuracy": 0.06666666666666667,
+        "strict_num_correct": 2,
+        "content_accuracy": 0.4666666666666667,
+        "content_correct_count": 14,
+        "format_conditioned_accuracy": 0.2857142857142857,
+        "explicit_final_answer_rate": 0.23333333333333334,
+        "truncated_rate": 0.9666666666666667,
+        "has_think_rate": 0.0,
+        "has_answer_rate": 0.0,
+        "has_single_boxed_rate": 0.1,
+        "exact_xml_boxed_rate": 0.0,
+        "extraction_source_distribution": {
+          "last_number": 23,
+          "boxed": 6,
+          "the_answer_is": 1
+        },
+        "reasoning_quality": {
+          "avg_word_count": 631.3,
+          "avg_reasoning_steps": 5.33,
+          "truncation_rate": 0.9667,
+          "repetition_rate": 0.6,
+          "avg_repetition_ratio": 0.2272,
+          "degeneration_rate": 0.6
+        },
+        "error_classification": {
+          "counts": {
+            "degeneration": 15,
+            "correct": 3,
+            "truncation": 12
+          },
+          "rates": {
+            "degeneration": 0.5,
+            "correct": 0.1,
+            "truncation": 0.4
+          }
+        }
+      },
+      "deepmath_smoke": {
+        "model": "/workspace/GenAI_Final/models/Qwen2.5-0.5B",
+        "adapter": "/workspace/GenAI_Final/ablation/runs/02_wo_question_min_len",
+        "dataset": "jsonl",
+        "dataset_path": "/workspace/GenAI_Final/evaluation/deepmath_phase_a_alpaca_smoke_200.jsonl",
+        "split": "test",
+        "limit": 30,
+        "batch_size": 4,
+        "max_new_tokens": 1024,
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "prompt_style": "xml",
+        "device": "cuda",
+        "accuracy": 0.03333333333333333,
+        "num_correct": 1,
+        "strict_accuracy": 0.0,
+        "strict_num_correct": 0,
+        "content_accuracy": 0.2,
+        "content_correct_count": 6,
+        "format_conditioned_accuracy": 0.0,
+        "explicit_final_answer_rate": 0.1,
+        "truncated_rate": 0.9333333333333333,
+        "has_think_rate": 0.0,
+        "has_answer_rate": 0.0,
+        "has_single_boxed_rate": 0.0,
+        "exact_xml_boxed_rate": 0.0,
+        "extraction_source_distribution": {
+          "last_line": 1,
+          "full_text": 2,
+          "last_number": 25,
+          "the_answer_is": 2
+        },
+        "reasoning_quality": {
+          "avg_word_count": 617.6,
+          "avg_reasoning_steps": 5.47,
+          "truncation_rate": 0.9333,
+          "repetition_rate": 0.5667,
+          "avg_repetition_ratio": 0.2307,
+          "degeneration_rate": 0.5667
+        },
+        "error_classification": {
+          "counts": {
+            "degeneration": 17,
+            "truncation": 10,
+            "reasoning_error": 2,
+            "correct": 1
+          },
+          "rates": {
+            "degeneration": 0.5667,
+            "truncation": 0.3333,
+            "reasoning_error": 0.0667,
+            "correct": 0.0333
+          }
+        }
+      },
+      "gsm8k_delta": {
+        "accuracy": -0.06666666666666665,
+        "strict_accuracy": -0.03333333333333334,
+        "content_accuracy": 0.06666666666666665,
+        "exact_xml_boxed_rate": 0.0,
+        "degeneration_rate": -0.06669999999999998,
+        "truncation_rate": 0.09999999999999998
+      },
+      "deepmath_smoke_delta": {
+        "accuracy": -0.03333333333333333,
+        "strict_accuracy": -0.03333333333333333,
+        "content_accuracy": -0.06666666666666665,
+        "exact_xml_boxed_rate": 0.0,
+        "degeneration_rate": 0.033399999999999985,
+        "truncation_rate": 0.0
+      }
+    },
+    {
+      "name": "03_wo_question_max_len",
+      "removed_rule": "remove max question length",
+      "variant_overrides": {
+        "max_question_chars": 10000000
+      },
+      "kept_examples": 100893,
+      "kept_delta": 2,
+      "gsm8k": {
+        "model": "/workspace/GenAI_Final/models/Qwen2.5-0.5B",
+        "adapter": "/workspace/GenAI_Final/ablation/runs/03_wo_question_max_len",
+        "dataset": "parquet",
+        "dataset_path": "/workspace/GenAI_Final/datasets/gsm8k/main/test-00000-of-00001.parquet",
+        "split": "test",
+        "limit": 30,
+        "batch_size": 4,
+        "max_new_tokens": 1024,
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "prompt_style": "xml",
+        "device": "cuda",
+        "accuracy": 0.23333333333333334,
+        "num_correct": 7,
+        "strict_accuracy": 0.16666666666666666,
+        "strict_num_correct": 5,
+        "content_accuracy": 0.4666666666666667,
+        "content_correct_count": 14,
+        "format_conditioned_accuracy": 0.625,
+        "explicit_final_answer_rate": 0.26666666666666666,
+        "truncated_rate": 0.9333333333333333,
+        "has_think_rate": 0.0,
+        "has_answer_rate": 0.0,
+        "has_single_boxed_rate": 0.13333333333333333,
+        "exact_xml_boxed_rate": 0.0,
+        "extraction_source_distribution": {
+          "last_number": 22,
+          "boxed": 4,
+          "the_answer_is": 3,
+          "last_line": 1
+        },
+        "reasoning_quality": {
+          "avg_word_count": 614.2,
+          "avg_reasoning_steps": 5.13,
+          "truncation_rate": 0.9333,
+          "repetition_rate": 0.6333,
+          "avg_repetition_ratio": 0.2176,
+          "degeneration_rate": 0.6333
+        },
+        "error_classification": {
+          "counts": {
+            "degeneration": 14,
+            "correct": 7,
+            "truncation": 7,
+            "computation_error": 2
+          },
+          "rates": {
+            "degeneration": 0.4667,
+            "correct": 0.2333,
+            "truncation": 0.2333,
+            "computation_error": 0.0667
+          }
+        }
+      },
+      "deepmath_smoke": {
+        "model": "/workspace/GenAI_Final/models/Qwen2.5-0.5B",
+        "adapter": "/workspace/GenAI_Final/ablation/runs/03_wo_question_max_len",
+        "dataset": "jsonl",
+        "dataset_path": "/workspace/GenAI_Final/evaluation/deepmath_phase_a_alpaca_smoke_200.jsonl",
+        "split": "test",
+        "limit": 30,
+        "batch_size": 4,
+        "max_new_tokens": 1024,
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "prompt_style": "xml",
+        "device": "cuda",
+        "accuracy": 0.1,
+        "num_correct": 3,
+        "strict_accuracy": 0.0,
+        "strict_num_correct": 0,
+        "content_accuracy": 0.23333333333333334,
+        "content_correct_count": 7,
+        "format_conditioned_accuracy": 0.0,
+        "explicit_final_answer_rate": 0.06666666666666667,
+        "truncated_rate": 0.9,
+        "has_think_rate": 0.0,
+        "has_answer_rate": 0.0,
+        "has_single_boxed_rate": 0.0,
+        "exact_xml_boxed_rate": 0.0,
+        "extraction_source_distribution": {
+          "last_number": 27,
+          "the_answer_is": 2,
+          "full_text": 1
+        },
+        "reasoning_quality": {
+          "avg_word_count": 604.4,
+          "avg_reasoning_steps": 4.53,
+          "truncation_rate": 0.9,
+          "repetition_rate": 0.5,
+          "avg_repetition_ratio": 0.1677,
+          "degeneration_rate": 0.5
+        },
+        "error_classification": {
+          "counts": {
+            "truncation": 12,
+            "degeneration": 14,
+            "correct": 3,
+            "reasoning_error": 1
+          },
+          "rates": {
+            "truncation": 0.4,
+            "degeneration": 0.4667,
+            "correct": 0.1,
+            "reasoning_error": 0.0333
+          }
+        }
+      },
+      "gsm8k_delta": {
+        "accuracy": 0.06666666666666668,
+        "strict_accuracy": 0.06666666666666665,
+        "content_accuracy": 0.06666666666666665,
+        "exact_xml_boxed_rate": 0.0,
+        "degeneration_rate": -0.033399999999999985,
+        "truncation_rate": 0.06659999999999999
+      },
+      "deepmath_smoke_delta": {
+        "accuracy": 0.03333333333333334,
+        "strict_accuracy": -0.03333333333333333,
+        "content_accuracy": -0.033333333333333326,
+        "exact_xml_boxed_rate": 0.0,
+        "degeneration_rate": -0.033299999999999996,
+        "truncation_rate": -0.033299999999999996
+      }
+    },
+    {
+      "name": "04_wo_answer_min_len",
+      "removed_rule": "remove min answer length",
+      "variant_overrides": {
+        "min_final_answer_chars": 0
+      },
+      "kept_examples": 100893,
+      "kept_delta": 2,
+      "gsm8k": {
+        "model": "/workspace/GenAI_Final/models/Qwen2.5-0.5B",
+        "adapter": "/workspace/GenAI_Final/ablation/runs/04_wo_answer_min_len",
+        "dataset": "parquet",
+        "dataset_path": "/workspace/GenAI_Final/datasets/gsm8k/main/test-00000-of-00001.parquet",
+        "split": "test",
+        "limit": 30,
+        "batch_size": 4,
+        "max_new_tokens": 1024,
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "prompt_style": "xml",
+        "device": "cuda",
+        "accuracy": 0.16666666666666666,
+        "num_correct": 5,
+        "strict_accuracy": 0.06666666666666667,
+        "strict_num_correct": 2,
+        "content_accuracy": 0.5,
+        "content_correct_count": 15,
+        "format_conditioned_accuracy": 0.2222222222222222,
+        "explicit_final_answer_rate": 0.3,
+        "truncated_rate": 0.8666666666666667,
+        "has_think_rate": 0.0,
+        "has_answer_rate": 0.0,
+        "has_single_boxed_rate": 0.06666666666666667,
+        "exact_xml_boxed_rate": 0.0,
+        "extraction_source_distribution": {
+          "last_number": 21,
+          "boxed": 4,
+          "the_answer_is": 3,
+          "last_line": 2
+        },
+        "reasoning_quality": {
+          "avg_word_count": 641.2,
+          "avg_reasoning_steps": 4.23,
+          "truncation_rate": 0.8667,
+          "repetition_rate": 0.7667,
+          "avg_repetition_ratio": 0.2291,
+          "degeneration_rate": 0.7667
+        },
+        "error_classification": {
+          "counts": {
+            "degeneration": 18,
+            "correct": 5,
+            "truncation": 6,
+            "computation_error": 1
+          },
+          "rates": {
+            "degeneration": 0.6,
+            "correct": 0.1667,
+            "truncation": 0.2,
+            "computation_error": 0.0333
+          }
+        }
+      },
+      "deepmath_smoke": {
+        "model": "/workspace/GenAI_Final/models/Qwen2.5-0.5B",
+        "adapter": "/workspace/GenAI_Final/ablation/runs/04_wo_answer_min_len",
+        "dataset": "jsonl",
+        "dataset_path": "/workspace/GenAI_Final/evaluation/deepmath_phase_a_alpaca_smoke_200.jsonl",
+        "split": "test",
+        "limit": 30,
+        "batch_size": 4,
+        "max_new_tokens": 1024,
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "prompt_style": "xml",
+        "device": "cuda",
+        "accuracy": 0.06666666666666667,
+        "num_correct": 2,
+        "strict_accuracy": 0.0,
+        "strict_num_correct": 0,
+        "content_accuracy": 0.23333333333333334,
+        "content_correct_count": 7,
+        "format_conditioned_accuracy": null,
+        "explicit_final_answer_rate": 0.0,
+        "truncated_rate": 0.9333333333333333,
+        "has_think_rate": 0.0,
+        "has_answer_rate": 0.0,
+        "has_single_boxed_rate": 0.0,
+        "exact_xml_boxed_rate": 0.0,
+        "extraction_source_distribution": {
+          "last_number": 28,
+          "full_text": 2
+        },
+        "reasoning_quality": {
+          "avg_word_count": 612.7,
+          "avg_reasoning_steps": 4.5,
+          "truncation_rate": 0.9333,
+          "repetition_rate": 0.7667,
+          "avg_repetition_ratio": 0.2714,
+          "degeneration_rate": 0.7667
+        },
+        "error_classification": {
+          "counts": {
+            "truncation": 5,
+            "degeneration": 22,
+            "correct": 2,
+            "format_only_error": 1
+          },
+          "rates": {
+            "truncation": 0.1667,
+            "degeneration": 0.7333,
+            "correct": 0.0667,
+            "format_only_error": 0.0333
+          }
+        }
+      },
+      "gsm8k_delta": {
+        "accuracy": 0.0,
+        "strict_accuracy": -0.03333333333333334,
+        "content_accuracy": 0.09999999999999998,
+        "exact_xml_boxed_rate": 0.0,
+        "degeneration_rate": 0.10000000000000009,
+        "truncation_rate": 0.0
+      },
+      "deepmath_smoke_delta": {
+        "accuracy": 0.0,
+        "strict_accuracy": -0.03333333333333333,
+        "content_accuracy": -0.033333333333333326,
+        "exact_xml_boxed_rate": 0.0,
+        "degeneration_rate": 0.23340000000000005,
+        "truncation_rate": 0.0
+      }
+    },
+    {
+      "name": "05_wo_answer_max_len",
+      "removed_rule": "remove max answer length",
+      "variant_overrides": {
+        "max_final_answer_chars": 10000000
+      },
+      "kept_examples": 100891,
+      "kept_delta": 0,
+      "gsm8k": {
+        "model": "/workspace/GenAI_Final/models/Qwen2.5-0.5B",
+        "adapter": "/workspace/GenAI_Final/ablation/runs/05_wo_answer_max_len",
+        "dataset": "parquet",
+        "dataset_path": "/workspace/GenAI_Final/datasets/gsm8k/main/test-00000-of-00001.parquet",
+        "split": "test",
+        "limit": 30,
+        "batch_size": 4,
+        "max_new_tokens": 1024,
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "prompt_style": "xml",
+        "device": "cuda",
+        "accuracy": 0.06666666666666667,
+        "num_correct": 2,
+        "strict_accuracy": 0.03333333333333333,
+        "strict_num_correct": 1,
+        "content_accuracy": 0.3,
+        "content_correct_count": 9,
+        "format_conditioned_accuracy": 0.16666666666666666,
+        "explicit_final_answer_rate": 0.2,
+        "truncated_rate": 0.9,
+        "has_think_rate": 0.0,
+        "has_answer_rate": 0.0,
+        "has_single_boxed_rate": 0.1,
+        "exact_xml_boxed_rate": 0.0,
+        "extraction_source_distribution": {
+          "last_number": 24,
+          "boxed": 4,
+          "the_answer_is": 2
+        },
+        "reasoning_quality": {
+          "avg_word_count": 633.8,
+          "avg_reasoning_steps": 4.23,
+          "truncation_rate": 0.9,
+          "repetition_rate": 0.8667,
+          "avg_repetition_ratio": 0.2508,
+          "degeneration_rate": 0.8667
+        },
+        "error_classification": {
+          "counts": {
+            "degeneration": 25,
+            "correct": 2,
+            "truncation": 3
+          },
+          "rates": {
+            "degeneration": 0.8333,
+            "correct": 0.0667,
+            "truncation": 0.1
+          }
+        }
+      },
+      "deepmath_smoke": {
+        "model": "/workspace/GenAI_Final/models/Qwen2.5-0.5B",
+        "adapter": "/workspace/GenAI_Final/ablation/runs/05_wo_answer_max_len",
+        "dataset": "jsonl",
+        "dataset_path": "/workspace/GenAI_Final/evaluation/deepmath_phase_a_alpaca_smoke_200.jsonl",
+        "split": "test",
+        "limit": 30,
+        "batch_size": 4,
+        "max_new_tokens": 1024,
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "prompt_style": "xml",
+        "device": "cuda",
+        "accuracy": 0.06666666666666667,
+        "num_correct": 2,
+        "strict_accuracy": 0.0,
+        "strict_num_correct": 0,
+        "content_accuracy": 0.23333333333333334,
+        "content_correct_count": 7,
+        "format_conditioned_accuracy": 0.0,
+        "explicit_final_answer_rate": 0.06666666666666667,
+        "truncated_rate": 0.9333333333333333,
+        "has_think_rate": 0.0,
+        "has_answer_rate": 0.0,
+        "has_single_boxed_rate": 0.0,
+        "exact_xml_boxed_rate": 0.0,
+        "extraction_source_distribution": {
+          "last_number": 27,
+          "the_answer_is": 2,
+          "full_text": 1
+        },
+        "reasoning_quality": {
+          "avg_word_count": 612.1,
+          "avg_reasoning_steps": 4.53,
+          "truncation_rate": 0.9333,
+          "repetition_rate": 0.6,
+          "avg_repetition_ratio": 0.2224,
+          "degeneration_rate": 0.6
+        },
+        "error_classification": {
+          "counts": {
+            "degeneration": 16,
+            "truncation": 11,
+            "correct": 2,
+            "computation_error": 1
+          },
+          "rates": {
+            "degeneration": 0.5333,
+            "truncation": 0.3667,
+            "correct": 0.0667,
+            "computation_error": 0.0333
+          }
+        }
+      },
+      "gsm8k_delta": {
+        "accuracy": -0.09999999999999999,
+        "strict_accuracy": -0.06666666666666668,
+        "content_accuracy": -0.10000000000000003,
+        "exact_xml_boxed_rate": 0.0,
+        "degeneration_rate": 0.20000000000000007,
+        "truncation_rate": 0.033299999999999996
+      },
+      "deepmath_smoke_delta": {
+        "accuracy": 0.0,
+        "strict_accuracy": -0.03333333333333333,
+        "content_accuracy": -0.033333333333333326,
+        "exact_xml_boxed_rate": 0.0,
+        "degeneration_rate": 0.06669999999999998,
+        "truncation_rate": 0.0
+      }
+    },
+    {
+      "name": "06_wo_ambiguity_regex",
+      "removed_rule": "remove ambiguity regex filter",
+      "variant_overrides": {
+        "ambiguity_regexes": []
+      },
+      "kept_examples": 102941,
+      "kept_delta": 2050,
+      "gsm8k": {
+        "model": "/workspace/GenAI_Final/models/Qwen2.5-0.5B",
+        "adapter": "/workspace/GenAI_Final/ablation/runs/06_wo_ambiguity_regex",
+        "dataset": "parquet",
+        "dataset_path": "/workspace/GenAI_Final/datasets/gsm8k/main/test-00000-of-00001.parquet",
+        "split": "test",
+        "limit": 30,
+        "batch_size": 4,
+        "max_new_tokens": 1024,
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "prompt_style": "xml",
+        "device": "cuda",
+        "accuracy": 0.16666666666666666,
+        "num_correct": 5,
+        "strict_accuracy": 0.06666666666666667,
+        "strict_num_correct": 2,
+        "content_accuracy": 0.4,
+        "content_correct_count": 12,
+        "format_conditioned_accuracy": 0.4,
+        "explicit_final_answer_rate": 0.16666666666666666,
+        "truncated_rate": 0.8666666666666667,
+        "has_think_rate": 0.0,
+        "has_answer_rate": 0.0,
+        "has_single_boxed_rate": 0.03333333333333333,
+        "exact_xml_boxed_rate": 0.0,
+        "extraction_source_distribution": {
+          "boxed": 4,
+          "last_number": 25,
+          "last_line": 1
+        },
+        "reasoning_quality": {
+          "avg_word_count": 642.2,
+          "avg_reasoning_steps": 3.9,
+          "truncation_rate": 0.8667,
+          "repetition_rate": 0.8333,
+          "avg_repetition_ratio": 0.2653,
+          "degeneration_rate": 0.8333
+        },
+        "error_classification": {
+          "counts": {
+            "correct": 5,
+            "truncation": 5,
+            "degeneration": 20
+          },
+          "rates": {
+            "correct": 0.1667,
+            "truncation": 0.1667,
+            "degeneration": 0.6667
+          }
+        }
+      },
+      "deepmath_smoke": {
+        "model": "/workspace/GenAI_Final/models/Qwen2.5-0.5B",
+        "adapter": "/workspace/GenAI_Final/ablation/runs/06_wo_ambiguity_regex",
+        "dataset": "jsonl",
+        "dataset_path": "/workspace/GenAI_Final/evaluation/deepmath_phase_a_alpaca_smoke_200.jsonl",
+        "split": "test",
+        "limit": 30,
+        "batch_size": 4,
+        "max_new_tokens": 1024,
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "prompt_style": "xml",
+        "device": "cuda",
+        "accuracy": 0.03333333333333333,
+        "num_correct": 1,
+        "strict_accuracy": 0.0,
+        "strict_num_correct": 0,
+        "content_accuracy": 0.2,
+        "content_correct_count": 6,
+        "format_conditioned_accuracy": 0.0,
+        "explicit_final_answer_rate": 0.03333333333333333,
+        "truncated_rate": 1.0,
+        "has_think_rate": 0.0,
+        "has_answer_rate": 0.0,
+        "has_single_boxed_rate": 0.0,
+        "exact_xml_boxed_rate": 0.0,
+        "extraction_source_distribution": {
+          "last_number": 28,
+          "full_text": 1,
+          "the_answer_is": 1
+        },
+        "reasoning_quality": {
+          "avg_word_count": 614.9,
+          "avg_reasoning_steps": 4.1,
+          "truncation_rate": 1.0,
+          "repetition_rate": 0.6333,
+          "avg_repetition_ratio": 0.2399,
+          "degeneration_rate": 0.6333
+        },
+        "error_classification": {
+          "counts": {
+            "degeneration": 18,
+            "truncation": 11,
+            "correct": 1
+          },
+          "rates": {
+            "degeneration": 0.6,
+            "truncation": 0.3667,
+            "correct": 0.0333
+          }
+        }
+      },
+      "gsm8k_delta": {
+        "accuracy": 0.0,
+        "strict_accuracy": -0.03333333333333334,
+        "content_accuracy": 0.0,
+        "exact_xml_boxed_rate": 0.0,
+        "degeneration_rate": 0.16660000000000008,
+        "truncation_rate": 0.0
+      },
+      "deepmath_smoke_delta": {
+        "accuracy": -0.03333333333333333,
+        "strict_accuracy": -0.03333333333333333,
+        "content_accuracy": -0.06666666666666665,
+        "exact_xml_boxed_rate": 0.0,
+        "degeneration_rate": 0.09999999999999998,
+        "truncation_rate": 0.06669999999999998
+      }
+    },
+    {
+      "name": "07_wo_r1_requirement",
+      "removed_rule": "remove r1-solution requirement",
+      "variant_overrides": {
+        "require_any_r1_solution": false
+      },
+      "kept_examples": 100891,
+      "kept_delta": 0,
+      "gsm8k": {
+        "model": "/workspace/GenAI_Final/models/Qwen2.5-0.5B",
+        "adapter": "/workspace/GenAI_Final/ablation/runs/07_wo_r1_requirement",
+        "dataset": "parquet",
+        "dataset_path": "/workspace/GenAI_Final/datasets/gsm8k/main/test-00000-of-00001.parquet",
+        "split": "test",
+        "limit": 30,
+        "batch_size": 4,
+        "max_new_tokens": 1024,
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "prompt_style": "xml",
+        "device": "cuda",
+        "accuracy": 0.0,
+        "num_correct": 0,
+        "strict_accuracy": 0.0,
+        "strict_num_correct": 0,
+        "content_accuracy": 0.3,
+        "content_correct_count": 9,
+        "format_conditioned_accuracy": 0.0,
+        "explicit_final_answer_rate": 0.2,
+        "truncated_rate": 0.8333333333333334,
+        "has_think_rate": 0.0,
+        "has_answer_rate": 0.0,
+        "has_single_boxed_rate": 0.06666666666666667,
+        "exact_xml_boxed_rate": 0.0,
+        "extraction_source_distribution": {
+          "boxed": 4,
+          "last_number": 24,
+          "the_answer_is": 1,
+          "last_line": 1
+        },
+        "reasoning_quality": {
+          "avg_word_count": 628.8,
+          "avg_reasoning_steps": 4.43,
+          "truncation_rate": 0.8333,
+          "repetition_rate": 0.7,
+          "avg_repetition_ratio": 0.2506,
+          "degeneration_rate": 0.7
+        },
+        "error_classification": {
+          "counts": {
+            "degeneration": 21,
+            "truncation": 8,
+            "computation_error": 1
+          },
+          "rates": {
+            "degeneration": 0.7,
+            "truncation": 0.2667,
+            "computation_error": 0.0333
+          }
+        }
+      },
+      "deepmath_smoke": {
+        "model": "/workspace/GenAI_Final/models/Qwen2.5-0.5B",
+        "adapter": "/workspace/GenAI_Final/ablation/runs/07_wo_r1_requirement",
+        "dataset": "jsonl",
+        "dataset_path": "/workspace/GenAI_Final/evaluation/deepmath_phase_a_alpaca_smoke_200.jsonl",
+        "split": "test",
+        "limit": 30,
+        "batch_size": 4,
+        "max_new_tokens": 1024,
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "prompt_style": "xml",
+        "device": "cuda",
+        "accuracy": 0.03333333333333333,
+        "num_correct": 1,
+        "strict_accuracy": 0.0,
+        "strict_num_correct": 0,
+        "content_accuracy": 0.23333333333333334,
+        "content_correct_count": 7,
+        "format_conditioned_accuracy": 0.0,
+        "explicit_final_answer_rate": 0.03333333333333333,
+        "truncated_rate": 0.8666666666666667,
+        "has_think_rate": 0.0,
+        "has_answer_rate": 0.0,
+        "has_single_boxed_rate": 0.0,
+        "exact_xml_boxed_rate": 0.0,
+        "extraction_source_distribution": {
+          "last_number": 29,
+          "the_answer_is": 1
+        },
+        "reasoning_quality": {
+          "avg_word_count": 613.0,
+          "avg_reasoning_steps": 5.0,
+          "truncation_rate": 0.8667,
+          "repetition_rate": 0.6667,
+          "avg_repetition_ratio": 0.2081,
+          "degeneration_rate": 0.6667
+        },
+        "error_classification": {
+          "counts": {
+            "degeneration": 19,
+            "truncation": 9,
+            "correct": 1,
+            "comprehension_error": 1
+          },
+          "rates": {
+            "degeneration": 0.6333,
+            "truncation": 0.3,
+            "correct": 0.0333,
+            "comprehension_error": 0.0333
+          }
+        }
+      },
+      "gsm8k_delta": {
+        "accuracy": -0.16666666666666666,
+        "strict_accuracy": -0.1,
+        "content_accuracy": -0.10000000000000003,
+        "exact_xml_boxed_rate": 0.0,
+        "degeneration_rate": 0.033299999999999996,
+        "truncation_rate": -0.033399999999999985
+      },
+      "deepmath_smoke_delta": {
+        "accuracy": -0.03333333333333333,
+        "strict_accuracy": -0.03333333333333333,
+        "content_accuracy": -0.033333333333333326,
+        "exact_xml_boxed_rate": 0.0,
+        "degeneration_rate": 0.13339999999999996,
+        "truncation_rate": -0.06659999999999999
+      }
+    }
+  ]
+}
