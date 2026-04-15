@@ -9,7 +9,7 @@ This section gives a brief overview of three pieces of evidence from the current
 
 The main GSM8K settings are greedy decoding, `300` examples, `max_new_tokens=1024`, XML-style prompting, and a custom evaluator that examines for math correctness, format adherence, and reasoning quality.
 
-For GSM8K, We mainly look at three metrics: Accuracy, which allows fallback extraction, Strict Accuracy, which only counts answers with an explicit structured final answer, and Content Accuracy, which checks when the correct answer appears anywhere in the output.
+We mainly look at three metrics: Accuracy, which allows fallback extraction, Strict Accuracy, which only counts answers with an explicit structured final answer, and Content Accuracy, which checks when the correct answer appears anywhere in the output.
 
 
 ## Main Results on GSM8K
